@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="This is a comprehensive guide
+aimed at beginners to understand the basics of Drizzle." />
+    <meta name="keywords" content="PostgreSQL, Database, SQL, Drizzle" />
+    <meta name="author" content="Sizar Corpse" />
+    <title>Drizzle for dumb like me</title>
+    <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      div.columns{display: flex; gap: min(4vw, 1.5em);}
+      div.column{flex: auto; overflow-x: auto;}
+      div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+      /* The extra [class] is a hack that increases specificity enough to
+         override a similar rule in reveal.js */
+      ul.task-list[class]{list-style: none;}
+      ul.task-list li input[type="checkbox"] {
+        font-size: inherit;
+        width: 0.8em;
+        margin: 0 0.8em 0.2em -1.6em;
+        vertical-align: middle;
+      }
+      .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+      /* CSS for syntax highlighting */
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
+      .sourceCode { overflow: visible; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
+      div.sourceCode { margin: 1em 0; }
+      pre.sourceCode { margin: 0; }
+      @media screen {
+      div.sourceCode { overflow: auto; }
+      }
+      @media print {
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+      }
+      pre.numberSource code
+        { counter-reset: source-line 0; }
+      pre.numberSource code > span
+        { position: relative; left: -4em; counter-increment: source-line; }
+      pre.numberSource code > span > a:first-child::before
+        { content: counter(source-line);
+          position: relative; left: -1em; text-align: right; vertical-align: baseline;
+          border: none; display: inline-block;
+          -webkit-touch-callout: none; -webkit-user-select: none;
+          -khtml-user-select: none; -moz-user-select: none;
+          -ms-user-select: none; user-select: none;
+          padding: 0 4px; width: 4em;
+          background-color: #232629;
+          color: #7a7c7d;
+        }
+      pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d;  padding-left: 4px; }
+      div.sourceCode
+        { color: #cfcfc2; background-color: #232629; }
+      @media screen {
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      }
+      code span { color: #cfcfc2; } /* Normal */
+      code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
+      code span.an { color: #3f8058; } /* Annotation */
+      code span.at { color: #2980b9; } /* Attribute */
+      code span.bn { color: #f67400; } /* BaseN */
+      code span.bu { color: #7f8c8d; } /* BuiltIn */
+      code span.cf { color: #fdbc4b; font-weight: bold; } /* ControlFlow */
+      code span.ch { color: #3daee9; } /* Char */
+      code span.cn { color: #27aeae; font-weight: bold; } /* Constant */
+      code span.co { color: #7a7c7d; } /* Comment */
+      code span.cv { color: #7f8c8d; } /* CommentVar */
+      code span.do { color: #a43340; } /* Documentation */
+      code span.dt { color: #2980b9; } /* DataType */
+      code span.dv { color: #f67400; } /* DecVal */
+      code span.er { color: #da4453; text-decoration: underline; } /* Error */
+      code span.ex { color: #0099ff; font-weight: bold; } /* Extension */
+      code span.fl { color: #f67400; } /* Float */
+      code span.fu { color: #8e44ad; } /* Function */
+      code span.im { color: #27ae60; } /* Import */
+      code span.in { color: #c45b00; } /* Information */
+      code span.kw { color: #cfcfc2; font-weight: bold; } /* Keyword */
+      code span.op { color: #cfcfc2; } /* Operator */
+      code span.ot { color: #27ae60; } /* Other */
+      code span.pp { color: #27ae60; } /* Preprocessor */
+      code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
+      code span.sc { color: #3daee9; } /* SpecialChar */
+      code span.ss { color: #da4453; } /* SpecialString */
+      code span.st { color: #f44f4f; } /* String */
+      code span.va { color: #27aeae; } /* Variable */
+      code span.vs { color: #da4453; } /* VerbatimString */
+      code span.wa { color: #da4453; } /* Warning */
+    </style>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <div id="container"><h1 id="drizzle-learn-drizzle"><img
+src="../docs/assets/drizzle.svg" alt="Drizzle" /> Learn Drizzle</h1>
+<h2 id="chapters">Chapters</h2>
+<ul>
+<li><a href="#-learn-drizzle">Learn Drizzle</a>
+<ul>
+<li><a href="#chapters">Chapters</a></li>
+<li><a href="#drizzle">Drizzle</a></li>
+<li><a href="#folder-structure">Folder Structure</a></li>
+<li><a href="#main-commands">Main Commands</a></li>
+<li><a href="#configuration">Configuration</a>
+<ul>
+<li><a href="#official-link-drizzleconfigts">[Official Link]
+drizzle.config.ts</a></li>
+<li><a href="#basic">Basic</a></li>
+<li><a href="#multiple-schemas-in-different-directories">Multiple
+Schemas in different directories</a></li>
+<li><a href="#multiple-schemas-in-the-same-directory">Multiple Schemas
+in the same directory</a></li>
+<li><a href="#migration-directory">Migration Directory</a></li>
+<li><a href="#options">Options</a>
+<ul>
+<li><a href="#dialect"><code>dialect</code></a></li>
+<li><a href="#schema"><code>schema</code></a></li>
+<li><a href="#out"><code>out</code></a></li>
+<li><a href="#dbcredentials"><code>dbCredentials</code></a></li>
+<li><a href="#verbose"><code>verbose</code></a></li>
+<li><a href="#strict"><code>strict</code></a></li>
+</ul></li>
+</ul></li>
+<li><a href="#drizzle-commands">Drizzle commands</a>
+<ul>
+<li><a href="#official-link-drizzle-kit-commands">[Official Link]
+drizzle-kit commands</a></li>
+<li><a
+href="#drizzle-kit-generate--drizzle-kit-generate-option"><code>drizzle-kit generate</code>
+| <code>drizzle-kit generate &lt;option&gt;</code></a></li>
+<li><a
+href="#drizzle-kit-migrate--drizzle-kit-migrate-option"><code>drizzle-kit migrate</code>
+| <code>drizzle-kit migrate &lt;option&gt;</code></a></li>
+<li><a
+href="#drizzle-kit-introspect--drizzle-kit-introspect-option"><code>drizzle-kit introspect</code>
+| <code>drizzle-kit introspect &lt;option&gt;</code></a></li>
+<li><a
+href="#drizzle-kit-push--drizzle-kit-push-option"><code>drizzle-kit push</code>
+| <code>drizzle-kit push &lt;option&gt;</code></a></li>
+<li><a
+href="#drizzle-kit-drop--drizzle-kit-drop-option"><code>drizzle-kit drop</code>
+| <code>drizzle-kit drop &lt;option&gt;</code></a></li>
+<li><a
+href="#drizzle-kit-up--drizzle-kit-up-option"><code>drizzle-kit up</code>
+| <code>drizzle-kit up &lt;option&gt;</code></a></li>
+<li><a
+href="#drizzle-kit-check--drizzle-kit-check-option"><code>drizzle-kit check</code>
+| <code>drizzle-kit check &lt;option&gt;</code></a></li>
+<li><a
+href="#drizzle-kit-studio--drizzle-kit-studio-option"><code>drizzle-kit studio</code>
+| <code>drizzle-kit studio &lt;option&gt;</code></a></li>
+</ul></li>
+<li><a href="#"></a>
+<ul>
+<li><a href="#official-link-drizzle-kit-schema">[Official Link]
+drizzle-kit schema</a></li>
+<li><a href="#integer--int--int4"><code>integer</code> |
+<code>int</code> | <code>int4</code></a></li>
+<li><a href="#smallint--int2"><code>smallint</code> |
+<code>int2</code></a></li>
+<li><a href="#bigint--int8"><code>bigint</code> |
+<code>int8</code></a></li>
+<li><a
+href="#serial--serial4--smallserial--serial2--bigserial--serial8"><code>serial</code>
+| <code>serial4</code> | <code>smallserial</code> | <code>serial2</code>
+| <code>bigserial</code> | <code>serial8</code></a></li>
+<li><a href="#boolean"><code>boolean</code></a></li>
+<li><a href="#text"><code>text</code></a></li>
+<li><a href="#varchar"><code>varchar</code></a></li>
+<li><a href="#char"><code>char</code></a></li>
+<li><a href="#numeric--decimal"><code>numeric</code> |
+<code>decimal</code></a></li>
+<li><a href="#real--float4--doubleprecision--float8"><code>real</code> |
+<code>float4</code> | <code>doublePrecision</code> |
+<code>float8</code></a></li>
+<li><a href="#json--jsonb"><code>json</code> |
+<code>jsonb</code></a></li>
+<li><a href="#time"><code>time</code></a></li>
+<li><a href="#timestamp"><code>timestamp</code></a></li>
+<li><a href="#date"><code>date</code></a></li>
+<li><a href="#interval"><code>interval</code></a></li>
+<li><a href="#enum--pgenum"><code>enum</code> |
+<code>pgEnum</code></a></li>
+<li><a href="#default-value--default--defaultrandom--defaultnow">Default
+value | <code>.default()</code> | <code>.defaultRandom()</code> |
+<code>.defaultNow()</code></a></li>
+<li><a href="#default--defaultfn"><code>.$default()</code> |
+<code>$defaultFn()</code></a></li>
+<li><a href="#onupdate-or-onupdatefn"><code>$onUpdate()</code> or
+<code>$onUpdateFn()</code></a></li>
+<li><a href="#not-null-notnull">Not null
+<code>.notNull()</code></a></li>
+<li><a href="#primary-key-primarykey">Primary key
+<code>.primaryKey()</code></a></li>
+</ul></li>
+</ul></li>
+</ul>
+<h2 id="drizzle">Drizzle</h2>
+<h2 id="folder-structure">Folder Structure</h2>
+<pre><code>📦&lt;project root&gt;
+|-...
+📂-src
+|-  |-📂drizzle
+|-    |-📂migrations
+|-    |-📄db.ts
+|-    |-📄migrate.ts
+|-    |-📄schema.ts
+|-...
+|-📄drizzle.config.ts
+|-📄package.json</code></pre>
+<h2 id="main-commands">Main Commands</h2>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> drizzle-kit generate</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> drizzle-kit migrate</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> drizzle-kit introspect</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> drizzle-kit push</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> drizzle-kit</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> drizzle-kit up</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> drizzle-kit check</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> drizzle-kit studio</span></code></pre></div>
+<h2 id="configuration">Configuration</h2>
+<h3 id="official-link-drizzle.config.ts"><a
+href="https://orm.drizzle.team/kit-docs/conf">[Official Link]
+drizzle.config.ts</a></h3>
+<h3 id="basic">Basic</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// drizzle.config.ts</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="im">default</span> <span class="fu">defineConfig</span>({</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  dialect<span class="op">:</span> <span class="st">&quot;postgresql&quot;</span><span class="op">,</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  schema<span class="op">:</span> <span class="st">&quot;./src/drizzle/schema.ts&quot;</span><span class="op">,</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  out<span class="op">:</span> <span class="st">&quot;./src/drizzle/migrations&quot;</span><span class="op">,</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  dbCredentials<span class="op">:</span> {</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    url<span class="op">:</span> <span class="bu">process</span><span class="op">.</span><span class="at">env</span><span class="op">.</span><span class="at">DATABASE_URL</span> <span class="im">as</span> <span class="dt">string</span><span class="op">,</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  verbose<span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  strict<span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>} satisfies Config)<span class="op">;</span></span></code></pre></div>
+<h3 id="multiple-schemas-in-different-directories">Multiple Schemas in
+different directories</h3>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// drizzle.config.ts</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { defineConfig } <span class="im">from</span> <span class="st">&quot;drizzle-kit&quot;</span><span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="im">default</span> <span class="fu">defineConfig</span>({</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  schema<span class="op">:</span> <span class="st">&quot;./src/**/schema.ts&quot;</span><span class="op">,</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">//or</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  schema<span class="op">:</span> [<span class="st">&quot;./src/user/schema.ts&quot;</span><span class="op">,</span> <span class="st">&quot;./src/posts/schema.ts&quot;</span>]<span class="op">,</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="multiple-schemas-in-the-same-directory">Multiple Schemas in the
+same directory</h3>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// drizzle.config.ts</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { defineConfig } <span class="im">from</span> <span class="st">&quot;drizzle-kit&quot;</span><span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="im">default</span> <span class="fu">defineConfig</span>({</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  schema<span class="op">:</span> <span class="st">&quot;./src/schema/*&quot;</span><span class="op">,</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="migration-directory">Migration Directory</h3>
+<p><code>out</code> param lets you define folder for your migrations,
+it’s optional and <code>drizzle</code> by default.</p>
+<p>Migration folder contains<code>.sql</code> migration files and
+<code>_meta</code> folder which is used by <code>drizzle-kit</code></p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">// drizzle.config.ts</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { defineConfig } <span class="im">from</span> <span class="st">&quot;drizzle-kit&quot;</span><span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="im">default</span> <span class="fu">defineConfig</span>({</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  out<span class="op">:</span> <span class="st">&quot;./src/drizzle/migrations&quot;</span><span class="op">,</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="options">Options</h3>
+<h4 id="dialect"><code>dialect</code></h4>
+<p>The dialect parameter is responsible for explicitly providing a
+database dialect you are using for all the commands.</p>
+<ul>
+<li>type: ’<code>postgresql' | 'mysql' | 'sqlite'</code></li>
+</ul>
+<h4 id="schema"><code>schema</code></h4>
+<p>The schema parameter is responsible for providing a path to the
+schema file or an array of paths to the schema files.</p>
+<ul>
+<li>type: <code>string | string[]</code></li>
+<li>command: <code>generate</code>, <code>check</code>, <code>up</code>,
+<code>push</code>, <code>drop</code></li>
+<li>uses: <a href="#basic">single schema</a>, <a
+href="#multiple-schemas-in-different-directories">multiple schemas in
+different directories</a>, <a
+href="#multiple-schemas-in-the-same-directory">multiple schemas in the
+same directory</a></li>
+</ul>
+<h4 id="out"><code>out</code></h4>
+<p>The <code>out</code> parameter allows you to define the folder for
+your migrations.</p>
+<ul>
+<li>type: <code>string</code> | <code>string[]</code></li>
+<li>default: <code>./drizzle</code></li>
+<li>command: <code>generate</code>, <code>check</code>, <code>up</code>,
+<code>drop</code>, <code>introspect</code>, <code>migration</code></li>
+<li>uses: <a href="#migration-directory">Migration Directory</a></li>
+</ul>
+<h4 id="dbcredentials"><code>dbCredentials</code></h4>
+<p>The <code>dbCredentials</code> parameter is responsible for providing
+the database credentials.</p>
+<ul>
+<li><p>type: <code>PostgresCredentials</code>,
+<code>MySQLCredentials</code>, <code>SQLiteCredentials</code>,
+<code>TursoCredentials</code></p></li>
+<li><p>command: <code>push</code>, <code>introspect</code></p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">// drizzle.config.ts</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">// PostgresCredentials</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { defineConfig } <span class="im">from</span> <span class="st">&quot;drizzle-kit&quot;</span><span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="im">default</span> <span class="fu">defineConfig</span>({</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  dbCredentials<span class="op">:</span> {</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    url<span class="op">:</span> <span class="st">&quot;&quot;</span><span class="op">,</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">// drizzle.config.ts</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">// PostgresCredentials</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { defineConfig } <span class="im">from</span> <span class="st">&quot;drizzle-kit&quot;</span><span class="op">;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="im">default</span> <span class="fu">defineConfig</span>({</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  dbCredentials<span class="op">:</span> {</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    host<span class="op">:</span> <span class="st">&quot;&quot;</span><span class="op">,</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    port<span class="op">:</span> <span class="st">&quot;&quot;</span><span class="op">,</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    user<span class="op">:</span> <span class="st">&quot;&quot;</span><span class="op">,</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    password<span class="op">:</span> <span class="st">&quot;&quot;</span><span class="op">,</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    database<span class="op">:</span> <span class="st">&quot;&quot;</span><span class="op">,</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div></li>
+</ul>
+<h4 id="verbose"><code>verbose</code></h4>
+<p>The <code>verbose</code> parameter is responsible for providing
+additional information about the process.</p>
+<ul>
+<li>type: <code>boolean</code></li>
+<li>default: <code>false</code></li>
+<li>command: <code>push</code></li>
+</ul>
+<h4 id="strict"><code>strict</code></h4>
+<p>The <code>strict</code> parameter is responsible for providing
+additional information about the process.</p>
+<ul>
+<li>type: <code>boolean</code></li>
+<li>default: <code>false</code></li>
+<li>command: <code>push</code></li>
+</ul>
+<h2 id="drizzle-commands">Drizzle commands</h2>
+<h3 id="official-link-drizzle-kit-commands"><a
+href="https://orm.drizzle.team/kit-docs/commands">[Official Link]
+drizzle-kit commands</a></h3>
+<h3
+id="drizzle-kit-generate-drizzle-kit-generate-option"><code>drizzle-kit generate</code>
+| <code>drizzle-kit generate &lt;option&gt;</code></h3>
+<ul>
+<li><code>dialect</code>, <code>--dialect</code> : Database dialect you
+are using. <code>postgresql</code> | <code>mysql</code> |
+<code>sqlite</code></li>
+<li><code>schema</code>, <code>--schema</code> : Path to the schema file
+or an array of paths to the schema files.</li>
+<li><code>out</code>, <code>--out</code> : Folder for your migrations.
+default <code>./drizzle</code></li>
+<li><code>config</code>, <code>--config</code> : Path to the
+configuration file. default <code>drizzle.config.ts</code></li>
+<li><code>name</code>, <code>--name</code> : Generate migration with
+custom name.</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">//</span> custom name migration</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> drizzle-kit generate <span class="at">--name</span> custom_migration</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="ex">//</span> custom name config file</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> drizzle-kit generate <span class="at">--config</span><span class="op">=</span>custom.config.ts</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="ex">//</span> all params as one</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> drizzle-kit generate <span class="at">--schema</span><span class="op">=</span>./src/schema.ts <span class="at">--out</span><span class="op">=</span>./drizzle</span></code></pre></div>
+<h3
+id="drizzle-kit-migrate-drizzle-kit-migrate-option"><code>drizzle-kit migrate</code>
+| <code>drizzle-kit migrate &lt;option&gt;</code></h3>
+<ul>
+<li><code>config</code>, <code>--config</code> : Path to the
+configuration file. default <code>drizzle.config.ts</code></li>
+</ul>
+<h3
+id="drizzle-kit-introspect-drizzle-kit-introspect-option"><code>drizzle-kit introspect</code>
+| <code>drizzle-kit introspect &lt;option&gt;</code></h3>
+<ul>
+<li><code>config</code>, <code>--config</code> : Path to the
+configuration file. default <code>drizzle.config.ts</code></li>
+<li><code>dialect</code>, <code>--dialect</code> : Database dialect you
+are using. <code>postgresql</code> | <code>mysql</code> |
+<code>sqlite</code></li>
+<li><code>out</code>, <code>--out</code> : Folder for your migrations.
+default <code>./drizzle</code> -<code>url</code>, <code>--url</code> :
+Database connection url.</li>
+<li><code>user</code>, <code>--user</code> : Database user.</li>
+<li><code>password</code>, <code>--password</code> : Database
+password.</li>
+<li><code>host</code>, <code>--host</code> : Database host.</li>
+<li><code>port</code>, <code>--port</code> : Database port.</li>
+<li><code>database</code>, <code>--database</code> : Database name.</li>
+<li><code>schemaFilter</code>, <code>--schemaFilter</code> : Filter
+schemas by name.</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">//</span> pull and generate schema from different database and save it to the different directory</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> drizzle-kit introspect <span class="at">--dialect</span><span class="op">=</span>postgresql <span class="at">--out</span><span class="op">=</span>test_pull/ <span class="at">--url</span><span class="op">=</span><span class="st">&quot;postgresql://postgres:ImaBatmanGotham007@localhost:5432/joker&quot;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> drizzle-kit introspect <span class="at">--out</span><span class="op">=</span>migrations/ <span class="at">--connectionString</span><span class="op">=</span>postgresql://user:pass@host:port/db_name</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> drizzle-kit introspect <span class="at">--out</span><span class="op">=</span>migrations/ <span class="at">--host</span><span class="op">=</span>0.0.0.0 <span class="at">--port</span><span class="op">=</span>5432 <span class="at">--user</span><span class="op">=</span>postgres <span class="at">--password</span><span class="op">=</span>pass <span class="at">--database</span><span class="op">=</span>db_name <span class="at">--ssl</span></span></code></pre></div>
+<h3
+id="drizzle-kit-push-drizzle-kit-push-option"><code>drizzle-kit push</code>
+| <code>drizzle-kit push &lt;option&gt;</code></h3>
+<ul>
+<li><code>config</code>, <code>--config</code> : Path to the
+configuration file. default <code>drizzle.config.ts</code></li>
+<li><code>dialect</code>, <code>--dialect</code> : Database dialect you
+are using. <code>postgresql</code> | <code>mysql</code> |
+<code>sqlite</code></li>
+<li><code>schema</code>, <code>--schema</code> : Path to the schema file
+or an array of paths to the schema files.</li>
+<li><code>driver</code>, <code>--driver</code> : driver to use for
+querying<code>(aws-data-api</code>, <code>d1-http</code>,
+<code>turso</code>, <code>expo</code>)</li>
+<li><code>tablesFilter</code>, <code>--tablesFilter</code> : Filter
+tables by name.</li>
+<li><code>schemaFilter</code>, <code>--schemasFilter</code> : Filter
+schemas by name. Default: <code>["public"]</code></li>
+</ul>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> drizzle-kit push <span class="at">--config</span><span class="op">=</span>custom.config.ts</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="ex">drizzle-kit</span> push <span class="at">--schema</span><span class="op">=</span>src/schema.ts <span class="at">--url</span><span class="op">=</span>postgresql://user:pass@host:port/db_name</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="ex">drizzle-kit</span> push <span class="at">--schema</span><span class="op">=</span>src/schema.ts <span class="at">--host</span><span class="op">=</span>0.0.0.0 <span class="at">--port</span><span class="op">=</span>5432 <span class="at">--user</span><span class="op">=</span>postgres <span class="at">--password</span><span class="op">=</span>pass <span class="at">--database</span><span class="op">=</span>db_name <span class="at">--ssl</span></span></code></pre></div>
+<h3
+id="drizzle-kit-drop-drizzle-kit-drop-option"><code>drizzle-kit drop</code>
+| <code>drizzle-kit drop &lt;option&gt;</code></h3>
+<ul>
+<li><code>config</code>, <code>--config</code> : Path to the
+configuration file. default <code>drizzle.config.ts</code></li>
+<li><code>out</code>, <code>--out</code> : Folder for your migrations.
+default <code>./drizzle</code></li>
+</ul>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> drizzle-kit drop <span class="at">--config</span><span class="op">=</span>custom.config.ts</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> drizzle-kit drop <span class="at">--out</span><span class="op">=</span>drizzle</span></code></pre></div>
+<h3
+id="drizzle-kit-up-drizzle-kit-up-option"><code>drizzle-kit up</code> |
+<code>drizzle-kit up &lt;option&gt;</code></h3>
+<p>This a utility command to keep all metadata up to date.</p>
+<ul>
+<li><code>config</code>, <code>--config</code> : Path to the
+configuration file. default <code>drizzle.config.ts</code></li>
+<li><code>out</code>, <code>--out</code> : Folder for your migrations.
+default <code>./drizzle</code></li>
+</ul>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> drizzle-kit up <span class="at">--config</span><span class="op">=</span>custom.config.ts</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> drizzle-kit up <span class="at">--out</span><span class="op">=</span>drizzle</span></code></pre></div>
+<h3
+id="drizzle-kit-check-drizzle-kit-check-option"><code>drizzle-kit check</code>
+| <code>drizzle-kit check &lt;option&gt;</code></h3>
+<p>This command is used to check the current state of the database and
+the state of the migrations.</p>
+<ul>
+<li><code>config</code>, <code>--config</code> : Path to the
+configuration file. default <code>drizzle.config.ts</code></li>
+<li><code>out</code>, <code>--out</code> : Folder for your migrations.
+default <code>./drizzle</code></li>
+<li><code>dialect</code>, <code>--dialect</code> : Database dialect you
+are using. <code>postgresql</code> | <code>mysql</code> |
+<code>sqlite</code></li>
+</ul>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> drizzle-kit check</span></code></pre></div>
+<h3
+id="drizzle-kit-studio-drizzle-kit-studio-option"><code>drizzle-kit studio</code>
+| <code>drizzle-kit studio &lt;option&gt;</code></h3>
+<ul>
+<li><code>port</code>, <code>--port</code> : Port to run the studio on.
+default <code>3000</code></li>
+<li><code>host</code>, <code>--host</code> : Host to run the studio on.
+default <code>localhost</code></li>
+<li><code>verbose</code>, <code>--verbose</code> : Verbose mode. default
+<code>false</code></li>
+</ul>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> drizzle-kit studio</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> drizzle-kit studio <span class="at">--port</span><span class="op">=</span>3000 <span class="at">--host</span><span class="op">=</span>localhost <span class="at">--verbose</span></span></code></pre></div>
+<h2 id="section"></h2>
+<h3 id="official-link-drizzle-kit-schema"><a
+href="https://orm.drizzle.team/docs/column-types/pg">[Official Link]
+drizzle-kit schema</a></h3>
+<h3 id="integer-int-int4"><code>integer</code> | <code>int</code> |
+<code>int4</code></h3>
+<p>Signed 4-byte integer. The integer type is the most common integer
+type in PostgreSQL. It is a signed 4-byte integer that has a range from
+-2147483648 to 2147483647.</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { integer<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>({</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  age<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;age&quot;</span>)<span class="op">,</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  money<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;money&quot;</span>)<span class="op">.</span><span class="fu">default</span>(<span class="dv">0</span>)<span class="op">,</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="smallint-int2"><code>smallint</code> | <code>int2</code></h3>
+<p>Signed 2-byte integer. The smallint type is a signed 2-byte integer
+that has a range from -32768 to 32767.</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { smallint<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>({</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  age<span class="op">:</span> <span class="fu">smallint</span>(<span class="st">&quot;age&quot;</span>)<span class="op">,</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  money<span class="op">:</span> <span class="fu">smallint</span>(<span class="st">&quot;money&quot;</span>)<span class="op">.</span><span class="fu">default</span>(<span class="dv">0</span>)<span class="op">,</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="bigint-int8"><code>bigint</code> | <code>int8</code></h3>
+<p>Signed 8-byte integer. The bigint type is a signed 8-byte integer
+that has a range from -9223372036854775808 to 9223372036854775807.</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { bigint<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>({</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  money<span class="op">:</span> <span class="dt">bigint</span>(<span class="st">&quot;money&quot;</span>)<span class="op">,</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co">// will be inferred as `number`</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>bigint<span class="op">:</span> <span class="dt">bigint</span>(<span class="st">&quot;bigint&quot;</span><span class="op">,</span> { mode<span class="op">:</span> <span class="st">&quot;number&quot;</span> })<span class="op">;</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">// will be inferred as `bigint`</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>bigint<span class="op">:</span> <span class="dt">bigint</span>(<span class="st">&quot;bigint&quot;</span><span class="op">,</span> { mode<span class="op">:</span> <span class="st">&quot;bigint&quot;</span> })<span class="op">;</span></span></code></pre></div>
+<h3
+id="serial-serial4-smallserial-serial2-bigserial-serial8"><code>serial</code>
+| <code>serial4</code> | <code>smallserial</code> | <code>serial2</code>
+| <code>bigserial</code> | <code>serial8</code></h3>
+<p>Auto-incrementing 4-byte integer. The serial type is a 4-byte integer
+that is automatically incremented. The serial type is commonly used to
+create a unique identifier for a table.</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { serial<span class="op">,</span> smallserial<span class="op">,</span> bigserial<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>({</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="fu">serial</span>(<span class="st">&quot;id&quot;</span>)<span class="op">,</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  smallId<span class="op">:</span> <span class="fu">smallserial</span>(<span class="st">&quot;smallId&quot;</span>)<span class="op">,</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  bigId<span class="op">:</span> <span class="fu">bigserial</span>(<span class="st">&quot;bigId&quot;</span><span class="op">,</span> { mode<span class="op">:</span> <span class="dt">number</span> })<span class="op">,</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="boolean"><code>boolean</code></h3>
+<p>Boolean type. The boolean type is a true or false value.</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { boolean<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>({</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  isTrue<span class="op">:</span> <span class="dt">boolean</span>(<span class="st">&quot;isTrue&quot;</span>)<span class="op">,</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  isFalse<span class="op">:</span> <span class="dt">boolean</span>(<span class="st">&quot;isFalse&quot;</span>)<span class="op">.</span><span class="fu">default</span>(<span class="kw">false</span>)<span class="op">,</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="text"><code>text</code></h3>
+<p>Variable-length(unlimited) character string.</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { text<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>({</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  description<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;description&quot;</span>)<span class="op">.</span><span class="fu">default</span>(<span class="st">&quot;&quot;</span>)<span class="op">,</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">// will be inferred as text: &quot;value1&quot; | &quot;value2&quot; | null.</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 🚨 it won’t check runtime values.</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  text<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;text&quot;</span><span class="op">,</span> { enum<span class="op">:</span> [<span class="st">&quot;value1&quot;</span><span class="op">,</span> <span class="st">&quot;value2&quot;</span>] })<span class="op">,</span></span></code></pre></div>
+<h3 id="varchar"><code>varchar</code></h3>
+<p>Variable-length character string, can store strings up to
+<code>n</code> characters (not bytes).</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { varchar<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>({</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> <span class="fu">varchar</span>(<span class="st">&quot;name&quot;</span><span class="op">,</span> { length<span class="op">:</span> <span class="dv">255</span> })<span class="op">,</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  email<span class="op">:</span> <span class="fu">varchar</span>(<span class="st">&quot;email&quot;</span><span class="op">,</span> { length<span class="op">:</span> <span class="dv">255</span> })<span class="op">.</span><span class="fu">default</span>(<span class="st">&quot;&quot;</span>)<span class="op">,</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="char"><code>char</code></h3>
+<p>Fixed-length character string, can store strings up to <code>n</code>
+characters (not bytes).</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { char<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>({</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> <span class="fu">char</span>(<span class="st">&quot;name&quot;</span><span class="op">,</span> { length<span class="op">:</span> <span class="dv">255</span> })<span class="op">,</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  email<span class="op">:</span> <span class="fu">char</span>(<span class="st">&quot;email&quot;</span><span class="op">,</span> { length<span class="op">:</span> <span class="dv">255</span> })<span class="op">.</span><span class="fu">default</span>(<span class="st">&quot;&quot;</span>)<span class="op">,</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="numeric-decimal"><code>numeric</code> |
+<code>decimal</code></h3>
+<p>Fixed-point number. The numeric type is a fixed-point number that has
+a user-specified precision and scale.</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { numeric<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>({</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  price<span class="op">:</span> <span class="fu">numeric</span>(<span class="st">&quot;price&quot;</span><span class="op">,</span> { precision<span class="op">:</span> <span class="dv">10</span><span class="op">,</span> scale<span class="op">:</span> <span class="dv">2</span> })<span class="op">,</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  tax<span class="op">:</span> <span class="fu">numeric</span>(<span class="st">&quot;tax&quot;</span><span class="op">,</span> { precision<span class="op">:</span> <span class="dv">10</span><span class="op">,</span> scale<span class="op">:</span> <span class="dv">2</span> })<span class="op">.</span><span class="fu">default</span>(<span class="dv">0</span>)<span class="op">,</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="real-float4-doubleprecision-float8"><code>real</code> |
+<code>float4</code> | <code>doublePrecision</code> |
+<code>float8</code></h3>
+<p>Floating-point number. The real type is a 4-byte floating-point
+number that has a range from 1.18E-38 to 3.40E+38.</p>
+<p>Double precision floating-point number. The double precision type is
+an 8-byte floating-point number that has a range from 2.23E-308 to
+1.79E+308.</p>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> {</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  real<span class="op">,</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  float4<span class="op">,</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  doublePrecision<span class="op">,</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  float8<span class="op">,</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  pgTable<span class="op">,</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>} <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>({</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  price<span class="op">:</span> <span class="fu">real</span>(<span class="st">&quot;price&quot;</span>)<span class="op">,</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  tax<span class="op">:</span> <span class="fu">float4</span>(<span class="st">&quot;tax&quot;</span>)<span class="op">.</span><span class="fu">default</span>(<span class="fl">10.5</span>)<span class="op">,</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  discount<span class="op">:</span> <span class="fu">doublePrecision</span>(<span class="st">&quot;discount&quot;</span>)<span class="op">.</span><span class="fu">default</span>(<span class="dv">0</span>)<span class="op">,</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  total<span class="op">:</span> <span class="fu">float8</span>(<span class="st">&quot;total&quot;</span>)<span class="op">.</span><span class="fu">default</span>(<span class="dv">0</span>)<span class="op">,</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="json-jsonb"><code>json</code> | <code>jsonb</code></h3>
+<p>JSON data type. The json type is used to store JSON data.</p>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { json<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>({</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  data<span class="op">:</span> <span class="fu">json</span>(<span class="st">&quot;data&quot;</span>)<span class="op">,</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> <span class="fu">json</span>(<span class="st">&quot;config&quot;</span>)<span class="op">.</span><span class="fu">default</span>({ foo<span class="op">:</span> <span class="st">&quot;bar&quot;</span> })<span class="op">,</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  content<span class="op">:</span> <span class="fu">jsonb</span>(<span class="st">&quot;content&quot;</span>)<span class="op">.</span><span class="fu">default</span>({})<span class="op">,</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>specify <code>.$type&lt;..&gt;()</code> for json object inference, it
+won’t check runtime values.</p>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">// will be inferred as { foo: string }</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>json<span class="op">:</span> <span class="fu">json</span>(<span class="st">&quot;json&quot;</span>)<span class="op">.</span><span class="fu">$type</span><span class="op">&lt;</span>{ foo<span class="op">:</span> <span class="dt">string</span> }<span class="op">&gt;</span>()<span class="op">;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">// will be inferred as string[]</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>json<span class="op">:</span> <span class="fu">json</span>(<span class="st">&quot;json&quot;</span>)<span class="op">.</span><span class="fu">$type</span><span class="op">&lt;</span><span class="dt">string</span>[]<span class="op">&gt;</span>()<span class="op">;</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co">// won&#39;t compile</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>json<span class="op">:</span> <span class="fu">jsonb</span>(<span class="st">&quot;json&quot;</span>)<span class="op">.</span><span class="fu">$type</span><span class="op">&lt;</span><span class="dt">string</span>[]<span class="op">&gt;</span>()<span class="op">.</span><span class="fu">default</span>({})<span class="op">;</span></span></code></pre></div>
+<h3 id="time"><code>time</code></h3>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { time<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;table&quot;</span><span class="op">,</span> {</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  time1<span class="op">:</span> <span class="fu">time</span>(<span class="st">&quot;time1&quot;</span>)<span class="op">,</span> <span class="co">// 15:04:05</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  time2<span class="op">:</span> <span class="fu">time</span>(<span class="st">&quot;time2&quot;</span><span class="op">,</span> { withTimezone<span class="op">:</span> <span class="kw">true</span> })<span class="op">,</span> <span class="co">// 15:04:05+00</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  time3<span class="op">:</span> <span class="fu">time</span>(<span class="st">&quot;time3&quot;</span><span class="op">,</span> { precision<span class="op">:</span> <span class="dv">6</span> })<span class="op">,</span> <span class="co">// 15:04:05.123456</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  time4<span class="op">:</span> <span class="fu">time</span>(<span class="st">&quot;time4&quot;</span><span class="op">,</span> { precision<span class="op">:</span> <span class="dv">6</span><span class="op">,</span> withTimezone<span class="op">:</span> <span class="kw">true</span> })<span class="op">,</span> <span class="co">// 15:04:05.123456+00</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="timestamp"><code>timestamp</code></h3>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { timestamp<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;table&quot;</span><span class="op">,</span> {</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  timestamp1<span class="op">:</span> <span class="fu">timestamp</span>(<span class="st">&quot;timestamp1&quot;</span>)<span class="op">,</span> <span class="co">// 2021-01-01 15:04:05</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  timestamp2<span class="op">:</span> <span class="fu">timestamp</span>(<span class="st">&quot;timestamp2&quot;</span><span class="op">,</span> { precision<span class="op">:</span> <span class="dv">6</span><span class="op">,</span> withTimezone<span class="op">:</span> <span class="kw">true</span> })<span class="op">,</span> <span class="co">// 2021-01-01 15:04:05.123456+00</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  timestamp3<span class="op">:</span> <span class="fu">timestamp</span>(<span class="st">&quot;timestamp3&quot;</span>)<span class="op">.</span><span class="fu">defaultNow</span>()<span class="op">,</span> <span class="co">// now()</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="co">// will be inferred as Date</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>timestamp<span class="op">:</span> <span class="fu">timestamp</span>(<span class="st">&#39;timestamp&#39;</span><span class="op">,</span> { mode<span class="op">:</span> <span class="st">&quot;date&quot;</span> })<span class="op">,</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="co">// will be inferred as string</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>timestamp<span class="op">:</span> <span class="fu">timestamp</span>(<span class="st">&#39;timestamp&#39;</span><span class="op">,</span> { mode<span class="op">:</span> <span class="st">&quot;string&quot;</span> })<span class="op">,</span></span></code></pre></div>
+<h3 id="date"><code>date</code></h3>
+<p>Calendar date (year, month, day)</p>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { date<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;table&quot;</span><span class="op">,</span> {</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  date<span class="op">:</span> <span class="fu">date</span>(<span class="st">&quot;date&quot;</span>)<span class="op">,</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="interval"><code>interval</code></h3>
+<div class="sourceCode" id="cb31"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { interval<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;table&quot;</span><span class="op">,</span> {</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  interval<span class="op">:</span> <span class="fu">interval</span>(<span class="st">&quot;interval&quot;</span>)<span class="op">,</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="enum-pgenum"><code>enum</code> | <code>pgEnum</code></h3>
+<div class="sourceCode" id="cb32"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { pgEnum<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> roleEnum <span class="op">=</span> <span class="fu">pgEnum</span>(<span class="st">&quot;role&quot;</span><span class="op">,</span> [<span class="st">&quot;admin&quot;</span><span class="op">,</span> <span class="st">&quot;user&quot;</span>])<span class="op">;</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;table&quot;</span><span class="op">,</span> {</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  role<span class="op">:</span> <span class="fu">roleEnum</span>(<span class="st">&quot;role&quot;</span>)<span class="op">,</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="default-value-.default-.defaultrandom-.defaultnow">Default value
+| <code>.default()</code> | <code>.defaultRandom()</code> |
+<code>.defaultNow()</code></h3>
+<div class="sourceCode" id="cb33"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { integer<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;table&quot;</span><span class="op">,</span> {</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  age<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;age&quot;</span>)<span class="op">.</span><span class="fu">default</span>(<span class="dv">0</span>)<span class="op">,</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  money<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;money&quot;</span>)<span class="op">.</span><span class="fu">defaultRandom</span>()<span class="op">,</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  createdAt<span class="op">:</span> <span class="fu">timestamp</span>(<span class="st">&quot;createdAt&quot;</span>)<span class="op">.</span><span class="fu">defaultNow</span>()<span class="op">,</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="default-defaultfn"><code>.$default()</code> |
+<code>$defaultFn()</code></h3>
+<p>When using <code>$default()</code> or <code>$defaultFn()</code>,
+which are simply different aliases for the same function, you can
+generate defaults at runtime and use these values in all insert
+queries.</p>
+<div class="sourceCode" id="cb34"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { text<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { createId } <span class="im">from</span> <span class="st">&quot;@some/cuid2&quot;</span><span class="op">;</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;table&quot;</span><span class="op">,</span> {</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;id&quot;</span>)<span class="op">.</span><span class="fu">$defaultFn</span>(() <span class="kw">=&gt;</span> <span class="fu">createId</span>())<span class="op">,</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="onupdate-or-onupdatefn"><code>$onUpdate()</code> or
+<code>$onUpdateFn()</code></h3>
+<h3 id="not-null-.notnull">Not null <code>.notNull()</code></h3>
+<div class="sourceCode" id="cb35"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { integer<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;table&quot;</span><span class="op">,</span> {</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  integer<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;integer&quot;</span>)<span class="op">.</span><span class="fu">notNull</span>()<span class="op">,</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="primary-key-.primarykey">Primary key
+<code>.primaryKey()</code></h3>
+<div class="sourceCode" id="cb36"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { integer<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;table&quot;</span><span class="op">,</span> {</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;id&quot;</span>)<span class="op">.</span><span class="fu">primaryKey</span>()<span class="op">,</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div></div>
+    </main>
+    <footer>
+      <p>
+        Copyright &copy; 5/12/2024 Sizar Corpse
+      </p>
+    </footer>
+  </body>
+</html>
