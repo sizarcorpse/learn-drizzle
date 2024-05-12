@@ -1,8 +1,8 @@
-# ![Drizzle](../docs/assets/drizzle.svg) Learn Drizzle
+# Learn Drizzle
 
 ## Chapters
 
-- [Learn Drizzle](#-learn-drizzle)
+- [Learn Drizzle](#learn-drizzle)
   - [Chapters](#chapters)
   - [Drizzle](#drizzle)
   - [Folder Structure](#folder-structure)
@@ -20,7 +20,7 @@
       - [`dbCredentials`](#dbcredentials)
       - [`verbose`](#verbose)
       - [`strict`](#strict)
-  - [Drizzle commands](#drizzle-commands)
+  - [Drizzle Commands](#drizzle-commands)
     - [\[Official Link\] drizzle-kit commands](#official-link-drizzle-kit-commands)
     - [`drizzle-kit generate` | `drizzle-kit generate <option>`](#drizzle-kit-generate--drizzle-kit-generate-option)
     - [`drizzle-kit migrate` | `drizzle-kit migrate <option>`](#drizzle-kit-migrate--drizzle-kit-migrate-option)
@@ -30,8 +30,8 @@
     - [`drizzle-kit up` | `drizzle-kit up <option>`](#drizzle-kit-up--drizzle-kit-up-option)
     - [`drizzle-kit check` | `drizzle-kit check <option>`](#drizzle-kit-check--drizzle-kit-check-option)
     - [`drizzle-kit studio` | `drizzle-kit studio <option>`](#drizzle-kit-studio--drizzle-kit-studio-option)
-  - [](#)
-    - [\[Official Link\] drizzle-kit schema](#official-link-drizzle-kit-schema)
+  - [Schema | Column Types](#schema--column-types)
+    - [\[Official Link\] drizzle-kit schema - column type](#official-link-drizzle-kit-schema---column-type)
     - [`integer` | `int` | `int4`](#integer--int--int4)
     - [`smallint` | `int2`](#smallint--int2)
     - [`bigint` | `int8`](#bigint--int8)
@@ -48,11 +48,22 @@
     - [`date`](#date)
     - [`interval`](#interval)
     - [`enum` | `pgEnum`](#enum--pgenum)
-    - [Default value | `.default()` | `.defaultRandom()` | `.defaultNow()`](#default-value--default--defaultrandom--defaultnow)
     - [`.$default()` | `$defaultFn()`](#default--defaultfn)
     - [`$onUpdate()` or `$onUpdateFn()`](#onupdate-or-onupdatefn)
-    - [Not null `.notNull()`](#not-null-notnull)
     - [Primary key `.primaryKey()`](#primary-key-primarykey)
+  - [Indexes \& Constraints](#indexes--constraints)
+    - [\[Official Link\] drizzle-kit schema - indexes \& constraints](#official-link-drizzle-kit-schema---indexes--constraints)
+    - [`.default()` | `.defaultRandom()` | `.defaultNow()`](#default--defaultrandom--defaultnow)
+    - [`.notNull()`](#notnull)
+    - [`.unique()`](#unique)
+      - [Composite Unique](#composite-unique)
+      - [`NULL NOT DISTINCT`](#null-not-distinct)
+    - [`.primaryKey()`](#primarykey)
+      - [Composite Primary Key](#composite-primary-key)
+    - [`.references()` | `FOREIGN KEY`](#references--foreign-key)
+      - [Self-referencing](#self-referencing)
+      - [Multi-column foreign keys](#multi-column-foreign-keys)
+    - [`index` | `uniqueIndex`](#index--uniqueindex)
 
 ## Drizzle
 
@@ -220,7 +231,7 @@ The `strict` parameter is responsible for providing additional information about
 - default: `false`
 - command: `push`
 
-## Drizzle commands
+## Drizzle Commands
 
 ### [[Official Link] drizzle-kit commands](https://orm.drizzle.team/kit-docs/commands)
 
@@ -334,9 +345,9 @@ npx drizzle-kit studio
 npx drizzle-kit studio --port=3000 --host=localhost --verbose
 ```
 
-##
+## Schema | Column Types
 
-### [[Official Link] drizzle-kit schema](https://orm.drizzle.team/docs/column-types/pg)
+### [[Official Link] drizzle-kit schema - column type](https://orm.drizzle.team/docs/column-types/pg)
 
 ### `integer` | `int` | `int4`
 
@@ -576,18 +587,6 @@ const table = pgTable("table", {
 });
 ```
 
-### Default value | `.default()` | `.defaultRandom()` | `.defaultNow()`
-
-```typescript
-import { integer, pgTable } from "drizzle-orm/pg-core";
-
-const table = pgTable("table", {
-  age: integer("age").default(0),
-  money: integer("money").defaultRandom(),
-  createdAt: timestamp("createdAt").defaultNow(),
-});
-```
-
 ### `.$default()` | `$defaultFn()`
 
 When using `$default()` or `$defaultFn()`, which are simply different aliases for the same function, you can generate defaults at runtime and use these values in all insert queries.
@@ -603,7 +602,33 @@ const table = pgTable("table", {
 
 ### `$onUpdate()` or `$onUpdateFn()`
 
-### Not null `.notNull()`
+### Primary key `.primaryKey()`
+
+```typescript
+import { integer, pgTable } from "drizzle-orm/pg-core";
+
+const table = pgTable("table", {
+  id: integer("id").primaryKey(),
+});
+```
+
+## Indexes & Constraints
+
+### [[Official Link] drizzle-kit schema - indexes & constraints](https://orm.drizzle.team/docs/indexes-constraints)
+
+### `.default()` | `.defaultRandom()` | `.defaultNow()`
+
+```typescript
+import { integer, pgTable } from "drizzle-orm/pg-core";
+
+const table = pgTable("table", {
+  age: integer("age").default(0),
+  money: integer("money").defaultRandom(),
+  createdAt: timestamp("createdAt").defaultNow(),
+});
+```
+
+### `.notNull()`
 
 ```typescript
 import { integer, pgTable } from "drizzle-orm/pg-core";
@@ -613,7 +638,58 @@ const table = pgTable("table", {
 });
 ```
 
-### Primary key `.primaryKey()`
+### `.unique()`
+
+```typescript
+import { integer, pgTable } from "drizzle-orm/pg-core";
+
+const table = pgTable("table", {
+  integer: integer("integer").unique(),
+});
+
+const table = pgTable("table", {
+  integer: integer("integer").unique("unique_name"),
+});
+```
+
+#### Composite Unique
+
+```typescript
+import { varchar, pgTable, unique } from "drizzle-orm/pg-core";
+
+const userTable = pgTable(
+  "user",
+  {
+    name: varchar("name"),
+    email: varchar("email"),
+  },
+  (table) => {
+    return {
+      uniqueNameEmail: unique("uniqueNameEmail").on(table.name, table.email),
+    };
+  }
+);
+```
+
+#### `NULL NOT DISTINCT`
+
+```typescript
+export const userNulls = pgTable("user_nulls_example", {
+  id: integer("id").unique("custom_name", { nulls: "not distinct" }),
+});
+
+export const userNulls = pgTable(
+  "user_nulls_example",
+  {
+    id: integer("id"),
+  },
+  (t) => ({
+    unq: unique().on(t.id).nullsNotDistinct(),
+  })
+);
+```
+
+### `.primaryKey()`
 
 ```typescript
 import { integer, pgTable } from "drizzle-orm/pg-core";
@@ -621,4 +697,124 @@ import { integer, pgTable } from "drizzle-orm/pg-core";
 const table = pgTable("table", {
   id: integer("id").primaryKey(),
 });
+``;
+```
+
+#### Composite Primary Key
+
+```typescript
+import { integer, pgTable, primaryKey } from "drizzle-orm/pg-core";
+
+const userTable = pgTable(
+  "user",
+  {
+    name: varchar("name"),
+    email: varchar("email"),
+  },
+  (table) => {
+    return {
+      pkNameEmail: primaryKey("pkNameEmail").on(table.name, table.email),
+    };
+  }
+);
+```
+
+### `.references()` | `FOREIGN KEY`
+
+_The table with the foreign key is called the child table, and the table with the primary key is called the referenced or parent table._
+
+```typescript
+import { integer, pgTable, references } from "drizzle-orm/pg-core";
+
+const userTable = pgTable("user", {
+  id: integer("id").primaryKey(),
+  name: varchar("name"),
+});
+
+const profileTable = pgTable("profile", {
+  id: integer("id").primaryKey(),
+  userId: integer("userId").references(() => userTable.id),
+});
+```
+
+#### Self-referencing
+
+```typescript
+export const user = pgTable("user", {
+  id: serial("id"),
+  name: text("name"),
+  parentId: integer("parent_id").references((): AnyPgColumn => user.id),
+});
+
+// or
+
+export const user = pgTable(
+  "user",
+  {
+    id: serial("id"),
+    name: text("name"),
+    parentId: integer("parent_id"),
+  },
+  (table) => {
+    return {
+      parentReference: foreignKey({
+        columns: [table.parentId],
+        foreignColumns: [table.id],
+        name: "custom_fk",
+      }),
+    };
+  }
+);
+```
+
+#### Multi-column foreign keys
+
+If the table you are referencing has a composite primary key (a primary key made up of multiple columns), then you would need to use a multi-column foreign key in the referencing table. This multi-column foreign key would need to have the same number of columns as the composite primary key, and the data types of the corresponding columns must also match.
+
+```typescript
+
+import { serial, text, foreignKey, pgTable, AnyPgColumn } from "drizzle-orm/pg-core";
+
+export const user = pgTable("user", {
+  firstName: text("firstName"),
+  lastName: text("lastName"),
+}, (table) => {
+  return {
+    pk: primaryKey({ columns: [table.firstName, table.lastName]}),
+  };
+});
+
+export const profile = pgTable("profile", {
+  id: serial("id").primaryKey(),
+  userFirstName: text("user_first_name"),
+  userLastName: text("user_last_name"),
+}, (table) => {
+  return {
+    userReference: foreignKey({
+      columns: [table.userFirstName, table.userLastName],
+      foreignColumns: [user.firstName, user.lastName]
+      name: "custom_fk"
+    })
+  }
+})
+```
+
+### `index` | `uniqueIndex`
+
+```typescript
+import { serial, text, index, uniqueIndex, pgTable } from "drizzle-orm/pg-core";
+export const user = pgTable(
+  "user",
+  {
+    id: serial("id").primaryKey(),
+    name: text("name"),
+    email: text("email"),
+  },
+  (table) => {
+    return {
+      nameIdx: index("name_idx").on(table.name),
+      emailIdx: uniqueIndex("email_idx").on(table.email),
+    };
+  }
+);
 ```

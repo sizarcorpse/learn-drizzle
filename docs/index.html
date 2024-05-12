@@ -96,11 +96,10 @@ aimed at beginners to understand the basics of Drizzle." />
   </head>
   <body>
     <main>
-      <div id="container"><h1 id="drizzle-learn-drizzle"><img
-src="../docs/assets/drizzle.svg" alt="Drizzle" /> Learn Drizzle</h1>
+      <div id="container"><h1 id="learn-drizzle">Learn Drizzle</h1>
 <h2 id="chapters">Chapters</h2>
 <ul>
-<li><a href="#-learn-drizzle">Learn Drizzle</a>
+<li><a href="#learn-drizzle">Learn Drizzle</a>
 <ul>
 <li><a href="#chapters">Chapters</a></li>
 <li><a href="#drizzle">Drizzle</a></li>
@@ -126,7 +125,7 @@ in the same directory</a></li>
 <li><a href="#strict"><code>strict</code></a></li>
 </ul></li>
 </ul></li>
-<li><a href="#drizzle-commands">Drizzle commands</a>
+<li><a href="#drizzle-commands">Drizzle Commands</a>
 <ul>
 <li><a href="#official-link-drizzle-kit-commands">[Official Link]
 drizzle-kit commands</a></li>
@@ -155,10 +154,10 @@ href="#drizzle-kit-check--drizzle-kit-check-option"><code>drizzle-kit check</cod
 href="#drizzle-kit-studio--drizzle-kit-studio-option"><code>drizzle-kit studio</code>
 | <code>drizzle-kit studio &lt;option&gt;</code></a></li>
 </ul></li>
-<li><a href="#"></a>
+<li><a href="#schema--column-types">Schema | Column Types</a>
 <ul>
-<li><a href="#official-link-drizzle-kit-schema">[Official Link]
-drizzle-kit schema</a></li>
+<li><a href="#official-link-drizzle-kit-schema---column-type">[Official
+Link] drizzle-kit schema - column type</a></li>
 <li><a href="#integer--int--int4"><code>integer</code> |
 <code>int</code> | <code>int4</code></a></li>
 <li><a href="#smallint--int2"><code>smallint</code> |
@@ -186,17 +185,40 @@ href="#serial--serial4--smallserial--serial2--bigserial--serial8"><code>serial</
 <li><a href="#interval"><code>interval</code></a></li>
 <li><a href="#enum--pgenum"><code>enum</code> |
 <code>pgEnum</code></a></li>
-<li><a href="#default-value--default--defaultrandom--defaultnow">Default
-value | <code>.default()</code> | <code>.defaultRandom()</code> |
-<code>.defaultNow()</code></a></li>
 <li><a href="#default--defaultfn"><code>.$default()</code> |
 <code>$defaultFn()</code></a></li>
 <li><a href="#onupdate-or-onupdatefn"><code>$onUpdate()</code> or
 <code>$onUpdateFn()</code></a></li>
-<li><a href="#not-null-notnull">Not null
-<code>.notNull()</code></a></li>
 <li><a href="#primary-key-primarykey">Primary key
 <code>.primaryKey()</code></a></li>
+</ul></li>
+<li><a href="#indexes--constraints">Indexes &amp; Constraints</a>
+<ul>
+<li><a
+href="#official-link-drizzle-kit-schema---indexes--constraints">[Official
+Link] drizzle-kit schema - indexes &amp; constraints</a></li>
+<li><a
+href="#default--defaultrandom--defaultnow"><code>.default()</code> |
+<code>.defaultRandom()</code> | <code>.defaultNow()</code></a></li>
+<li><a href="#notnull"><code>.notNull()</code></a></li>
+<li><a href="#unique"><code>.unique()</code></a>
+<ul>
+<li><a href="#composite-unique">Composite Unique</a></li>
+<li><a href="#null-not-distinct"><code>NULL NOT DISTINCT</code></a></li>
+</ul></li>
+<li><a href="#primarykey"><code>.primaryKey()</code></a>
+<ul>
+<li><a href="#composite-primary-key">Composite Primary Key</a></li>
+</ul></li>
+<li><a href="#references--foreign-key"><code>.references()</code> |
+<code>FOREIGN KEY</code></a>
+<ul>
+<li><a href="#self-referencing">Self-referencing</a></li>
+<li><a href="#multi-column-foreign-keys">Multi-column foreign
+keys</a></li>
+</ul></li>
+<li><a href="#index--uniqueindex"><code>index</code> |
+<code>uniqueIndex</code></a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -351,7 +373,7 @@ additional information about the process.</p>
 <li>default: <code>false</code></li>
 <li>command: <code>push</code></li>
 </ul>
-<h2 id="drizzle-commands">Drizzle commands</h2>
+<h2 id="drizzle-commands">Drizzle Commands</h2>
 <h3 id="official-link-drizzle-kit-commands"><a
 href="https://orm.drizzle.team/kit-docs/commands">[Official Link]
 drizzle-kit commands</a></h3>
@@ -499,10 +521,10 @@ default <code>localhost</code></li>
 class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> drizzle-kit studio</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> drizzle-kit studio <span class="at">--port</span><span class="op">=</span>3000 <span class="at">--host</span><span class="op">=</span>localhost <span class="at">--verbose</span></span></code></pre></div>
-<h2 id="section"></h2>
-<h3 id="official-link-drizzle-kit-schema"><a
+<h2 id="schema-column-types">Schema | Column Types</h2>
+<h3 id="official-link-drizzle-kit-schema---column-type"><a
 href="https://orm.drizzle.team/docs/column-types/pg">[Official Link]
-drizzle-kit schema</a></h3>
+drizzle-kit schema - column type</a></h3>
 <h3 id="integer-int-int4"><code>integer</code> | <code>int</code> |
 <code>int4</code></h3>
 <p>Signed 4-byte integer. The integer type is the most common integer
@@ -697,47 +719,211 @@ class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb32
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;table&quot;</span><span class="op">,</span> {</span>
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  role<span class="op">:</span> <span class="fu">roleEnum</span>(<span class="st">&quot;role&quot;</span>)<span class="op">,</span></span>
 <span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
-<h3 id="default-value-.default-.defaultrandom-.defaultnow">Default value
-| <code>.default()</code> | <code>.defaultRandom()</code> |
-<code>.defaultNow()</code></h3>
-<div class="sourceCode" id="cb33"><pre
-class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { integer<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;table&quot;</span><span class="op">,</span> {</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  age<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;age&quot;</span>)<span class="op">.</span><span class="fu">default</span>(<span class="dv">0</span>)<span class="op">,</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  money<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;money&quot;</span>)<span class="op">.</span><span class="fu">defaultRandom</span>()<span class="op">,</span></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  createdAt<span class="op">:</span> <span class="fu">timestamp</span>(<span class="st">&quot;createdAt&quot;</span>)<span class="op">.</span><span class="fu">defaultNow</span>()<span class="op">,</span></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
 <h3 id="default-defaultfn"><code>.$default()</code> |
 <code>$defaultFn()</code></h3>
 <p>When using <code>$default()</code> or <code>$defaultFn()</code>,
 which are simply different aliases for the same function, you can
 generate defaults at runtime and use these values in all insert
 queries.</p>
-<div class="sourceCode" id="cb34"><pre
-class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { text<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { createId } <span class="im">from</span> <span class="st">&quot;@some/cuid2&quot;</span><span class="op">;</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;table&quot;</span><span class="op">,</span> {</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;id&quot;</span>)<span class="op">.</span><span class="fu">$defaultFn</span>(() <span class="kw">=&gt;</span> <span class="fu">createId</span>())<span class="op">,</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { text<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { createId } <span class="im">from</span> <span class="st">&quot;@some/cuid2&quot;</span><span class="op">;</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;table&quot;</span><span class="op">,</span> {</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;id&quot;</span>)<span class="op">.</span><span class="fu">$defaultFn</span>(() <span class="kw">=&gt;</span> <span class="fu">createId</span>())<span class="op">,</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
 <h3 id="onupdate-or-onupdatefn"><code>$onUpdate()</code> or
 <code>$onUpdateFn()</code></h3>
-<h3 id="not-null-.notnull">Not null <code>.notNull()</code></h3>
+<h3 id="primary-key-.primarykey">Primary key
+<code>.primaryKey()</code></h3>
+<div class="sourceCode" id="cb34"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { integer<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;table&quot;</span><span class="op">,</span> {</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;id&quot;</span>)<span class="op">.</span><span class="fu">primaryKey</span>()<span class="op">,</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h2 id="indexes-constraints">Indexes &amp; Constraints</h2>
+<h3 id="official-link-drizzle-kit-schema---indexes-constraints"><a
+href="https://orm.drizzle.team/docs/indexes-constraints">[Official Link]
+drizzle-kit schema - indexes &amp; constraints</a></h3>
+<h3 id="default-.defaultrandom-.defaultnow"><code>.default()</code> |
+<code>.defaultRandom()</code> | <code>.defaultNow()</code></h3>
 <div class="sourceCode" id="cb35"><pre
 class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { integer<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;table&quot;</span><span class="op">,</span> {</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  integer<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;integer&quot;</span>)<span class="op">.</span><span class="fu">notNull</span>()<span class="op">,</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
-<h3 id="primary-key-.primarykey">Primary key
-<code>.primaryKey()</code></h3>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  age<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;age&quot;</span>)<span class="op">.</span><span class="fu">default</span>(<span class="dv">0</span>)<span class="op">,</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  money<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;money&quot;</span>)<span class="op">.</span><span class="fu">defaultRandom</span>()<span class="op">,</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  createdAt<span class="op">:</span> <span class="fu">timestamp</span>(<span class="st">&quot;createdAt&quot;</span>)<span class="op">.</span><span class="fu">defaultNow</span>()<span class="op">,</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="notnull"><code>.notNull()</code></h3>
 <div class="sourceCode" id="cb36"><pre
 class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { integer<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;table&quot;</span><span class="op">,</span> {</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;id&quot;</span>)<span class="op">.</span><span class="fu">primaryKey</span>()<span class="op">,</span></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div></div>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  integer<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;integer&quot;</span>)<span class="op">.</span><span class="fu">notNull</span>()<span class="op">,</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="unique"><code>.unique()</code></h3>
+<div class="sourceCode" id="cb37"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { integer<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;table&quot;</span><span class="op">,</span> {</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  integer<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;integer&quot;</span>)<span class="op">.</span><span class="fu">unique</span>()<span class="op">,</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;table&quot;</span><span class="op">,</span> {</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  integer<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;integer&quot;</span>)<span class="op">.</span><span class="fu">unique</span>(<span class="st">&quot;unique_name&quot;</span>)<span class="op">,</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h4 id="composite-unique">Composite Unique</h4>
+<div class="sourceCode" id="cb38"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { varchar<span class="op">,</span> pgTable<span class="op">,</span> unique } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> userTable <span class="op">=</span> <span class="fu">pgTable</span>(</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;user&quot;</span><span class="op">,</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> <span class="fu">varchar</span>(<span class="st">&quot;name&quot;</span>)<span class="op">,</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    email<span class="op">:</span> <span class="fu">varchar</span>(<span class="st">&quot;email&quot;</span>)<span class="op">,</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  (table) <span class="kw">=&gt;</span> {</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>      uniqueNameEmail<span class="op">:</span> <span class="fu">unique</span>(<span class="st">&quot;uniqueNameEmail&quot;</span>)<span class="op">.</span><span class="fu">on</span>(table<span class="op">.</span><span class="at">name</span><span class="op">,</span> table<span class="op">.</span><span class="at">email</span>)<span class="op">,</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre></div>
+<h4 id="null-not-distinct"><code>NULL NOT DISTINCT</code></h4>
+<div class="sourceCode" id="cb39"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> userNulls <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;user_nulls_example&quot;</span><span class="op">,</span> {</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;id&quot;</span>)<span class="op">.</span><span class="fu">unique</span>(<span class="st">&quot;custom_name&quot;</span><span class="op">,</span> { nulls<span class="op">:</span> <span class="st">&quot;not distinct&quot;</span> })<span class="op">,</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> userNulls <span class="op">=</span> <span class="fu">pgTable</span>(</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;user_nulls_example&quot;</span><span class="op">,</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;id&quot;</span>)<span class="op">,</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>  (t) <span class="kw">=&gt;</span> ({</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>    unq<span class="op">:</span> <span class="fu">unique</span>()<span class="op">.</span><span class="fu">on</span>(t<span class="op">.</span><span class="at">id</span>)<span class="op">.</span><span class="fu">nullsNotDistinct</span>()<span class="op">,</span></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre></div>
+<h3 id="primarykey"><code>.primaryKey()</code></h3>
+<div class="sourceCode" id="cb40"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { integer<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> table <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;table&quot;</span><span class="op">,</span> {</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;id&quot;</span>)<span class="op">.</span><span class="fu">primaryKey</span>()<span class="op">,</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="vs">``</span><span class="op">;</span></span></code></pre></div>
+<h4 id="composite-primary-key">Composite Primary Key</h4>
+<div class="sourceCode" id="cb41"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { integer<span class="op">,</span> pgTable<span class="op">,</span> primaryKey } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> userTable <span class="op">=</span> <span class="fu">pgTable</span>(</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;user&quot;</span><span class="op">,</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> <span class="fu">varchar</span>(<span class="st">&quot;name&quot;</span>)<span class="op">,</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    email<span class="op">:</span> <span class="fu">varchar</span>(<span class="st">&quot;email&quot;</span>)<span class="op">,</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>  (table) <span class="kw">=&gt;</span> {</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>      pkNameEmail<span class="op">:</span> <span class="fu">primaryKey</span>(<span class="st">&quot;pkNameEmail&quot;</span>)<span class="op">.</span><span class="fu">on</span>(table<span class="op">.</span><span class="at">name</span><span class="op">,</span> table<span class="op">.</span><span class="at">email</span>)<span class="op">,</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre></div>
+<h3 id="references-foreign-key"><code>.references()</code> |
+<code>FOREIGN KEY</code></h3>
+<p><em>The table with the foreign key is called the child table, and the
+table with the primary key is called the referenced or parent
+table.</em></p>
+<div class="sourceCode" id="cb42"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { integer<span class="op">,</span> pgTable<span class="op">,</span> references } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> userTable <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;user&quot;</span><span class="op">,</span> {</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;id&quot;</span>)<span class="op">.</span><span class="fu">primaryKey</span>()<span class="op">,</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> <span class="fu">varchar</span>(<span class="st">&quot;name&quot;</span>)<span class="op">,</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> profileTable <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;profile&quot;</span><span class="op">,</span> {</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;id&quot;</span>)<span class="op">.</span><span class="fu">primaryKey</span>()<span class="op">,</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  userId<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;userId&quot;</span>)<span class="op">.</span><span class="fu">references</span>(() <span class="kw">=&gt;</span> userTable<span class="op">.</span><span class="at">id</span>)<span class="op">,</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h4 id="self-referencing">Self-referencing</h4>
+<div class="sourceCode" id="cb43"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> user <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;user&quot;</span><span class="op">,</span> {</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="fu">serial</span>(<span class="st">&quot;id&quot;</span>)<span class="op">,</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;name&quot;</span>)<span class="op">,</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  parentId<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;parent_id&quot;</span>)<span class="op">.</span><span class="fu">references</span>(()<span class="op">:</span> AnyPgColumn <span class="kw">=&gt;</span> user<span class="op">.</span><span class="at">id</span>)<span class="op">,</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="co">// or</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> user <span class="op">=</span> <span class="fu">pgTable</span>(</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;user&quot;</span><span class="op">,</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="fu">serial</span>(<span class="st">&quot;id&quot;</span>)<span class="op">,</span></span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;name&quot;</span>)<span class="op">,</span></span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>    parentId<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;parent_id&quot;</span>)<span class="op">,</span></span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>  (table) <span class="kw">=&gt;</span> {</span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>      parentReference<span class="op">:</span> <span class="fu">foreignKey</span>({</span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>        columns<span class="op">:</span> [table<span class="op">.</span><span class="at">parentId</span>]<span class="op">,</span></span>
+<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a>        foreignColumns<span class="op">:</span> [table<span class="op">.</span><span class="at">id</span>]<span class="op">,</span></span>
+<span id="cb43-21"><a href="#cb43-21" aria-hidden="true" tabindex="-1"></a>        name<span class="op">:</span> <span class="st">&quot;custom_fk&quot;</span><span class="op">,</span></span>
+<span id="cb43-22"><a href="#cb43-22" aria-hidden="true" tabindex="-1"></a>      })<span class="op">,</span></span>
+<span id="cb43-23"><a href="#cb43-23" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb43-24"><a href="#cb43-24" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb43-25"><a href="#cb43-25" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre></div>
+<h4 id="multi-column-foreign-keys">Multi-column foreign keys</h4>
+<p>If the table you are referencing has a composite primary key (a
+primary key made up of multiple columns), then you would need to use a
+multi-column foreign key in the referencing table. This multi-column
+foreign key would need to have the same number of columns as the
+composite primary key, and the data types of the corresponding columns
+must also match.</p>
+<div class="sourceCode" id="cb44"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { serial<span class="op">,</span> text<span class="op">,</span> foreignKey<span class="op">,</span> pgTable<span class="op">,</span> AnyPgColumn } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> user <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;user&quot;</span><span class="op">,</span> {</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  firstName<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;firstName&quot;</span>)<span class="op">,</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  lastName<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;lastName&quot;</span>)<span class="op">,</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>}<span class="op">,</span> (table) <span class="kw">=&gt;</span> {</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> {</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>    pk<span class="op">:</span> <span class="fu">primaryKey</span>({ columns<span class="op">:</span> [table<span class="op">.</span><span class="at">firstName</span><span class="op">,</span> table<span class="op">.</span><span class="at">lastName</span>]})<span class="op">,</span></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> profile <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;profile&quot;</span><span class="op">,</span> {</span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="fu">serial</span>(<span class="st">&quot;id&quot;</span>)<span class="op">.</span><span class="fu">primaryKey</span>()<span class="op">,</span></span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>  userFirstName<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;user_first_name&quot;</span>)<span class="op">,</span></span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>  userLastName<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;user_last_name&quot;</span>)<span class="op">,</span></span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>}<span class="op">,</span> (table) <span class="kw">=&gt;</span> {</span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> {</span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>    userReference<span class="op">:</span> <span class="fu">foreignKey</span>({</span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>      columns<span class="op">:</span> [table<span class="op">.</span><span class="at">userFirstName</span><span class="op">,</span> table<span class="op">.</span><span class="at">userLastName</span>]<span class="op">,</span></span>
+<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a>      foreignColumns<span class="op">:</span> [user<span class="op">.</span><span class="at">firstName</span><span class="op">,</span> user<span class="op">.</span><span class="at">lastName</span>]</span>
+<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a>      name<span class="op">:</span> <span class="st">&quot;custom_fk&quot;</span></span>
+<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
+<h3 id="index-uniqueindex"><code>index</code> |
+<code>uniqueIndex</code></h3>
+<div class="sourceCode" id="cb45"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { serial<span class="op">,</span> text<span class="op">,</span> index<span class="op">,</span> uniqueIndex<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> user <span class="op">=</span> <span class="fu">pgTable</span>(</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;user&quot;</span><span class="op">,</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="fu">serial</span>(<span class="st">&quot;id&quot;</span>)<span class="op">.</span><span class="fu">primaryKey</span>()<span class="op">,</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;name&quot;</span>)<span class="op">,</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    email<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;email&quot;</span>)<span class="op">,</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>  (table) <span class="kw">=&gt;</span> {</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>      nameIdx<span class="op">:</span> <span class="fu">index</span>(<span class="st">&quot;name_idx&quot;</span>)<span class="op">.</span><span class="fu">on</span>(table<span class="op">.</span><span class="at">name</span>)<span class="op">,</span></span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>      emailIdx<span class="op">:</span> <span class="fu">uniqueIndex</span>(<span class="st">&quot;email_idx&quot;</span>)<span class="op">.</span><span class="fu">on</span>(table<span class="op">.</span><span class="at">email</span>)<span class="op">,</span></span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre></div></div>
     </main>
     <footer>
       <p>
