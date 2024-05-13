@@ -61,9 +61,14 @@
     - [`.primaryKey()`](#primarykey)
       - [Composite Primary Key](#composite-primary-key)
     - [`.references()` | `FOREIGN KEY`](#references--foreign-key)
+    - [Foreign key actions | `onDelete` | `onUpdate`](#foreign-key-actions--ondelete--onupdate)
       - [Self-referencing](#self-referencing)
       - [Multi-column foreign keys](#multi-column-foreign-keys)
     - [`index` | `uniqueIndex`](#index--uniqueindex)
+  - [Relations](#relations)
+    - [One-to-One](#one-to-one)
+    - [One-to-Many](#one-to-many)
+    - [Many-to-Many](#many-to-many)
 
 ## Drizzle
 
@@ -737,6 +742,24 @@ const profileTable = pgTable("profile", {
 });
 ```
 
+### Foreign key actions | `onDelete` | `onUpdate`
+
+- `CASCADE` | `cascade`: When the referenced row is deleted, also delete the rows that reference it.
+- `SET NULL` | `set null`: When the referenced row is deleted, set the referencing columns to NULL.
+- `NO ACTION` | `no action`: Do nothing when the referenced row is deleted.
+- `RESTRICT` | `restrict`: Prevent the deletion of a referenced row.
+- `SET DEFAULT` | `set default`: Set the referencing columns to their default values.
+
+```typescript
+export const posts = pgTable("posts", {
+  id: serial("id").primaryKey(),
+  name: text("name"),
+  author: integer("author")
+    .references(() => users.id, { onDelete: "cascade" })
+    .notNull(),
+});
+```
+
 #### Self-referencing
 
 ```typescript
@@ -816,5 +839,129 @@ export const user = pgTable(
       emailIdx: uniqueIndex("email_idx").on(table.email),
     };
   }
+);
+```
+
+## Relations
+
+### One-to-One
+
+In a parent-child relationship, the child table should hold the foreign key. This foreign key references the primary key of the parent table. This establishes a relationship where each record in the child table is related to a record in the parent table.
+
+- **Indexing:** Always create an index on the foreign key column to improve query performance.
+- **uniqueness:** The foreign key column should be defined with `UNIQUE` constraint to ensure one-to-one relationship.
+- **Nullability:** If every record in the first table must have a corresponding record in the second table, the foreign key column should be defined as `NOT NULL`.
+- **onUpdate:** Use `ON UPDATE CASCADE` if you want to update the related record in the second table when a record in the first table is updated.
+- **onDelete:** Use `ON DELETE CASCADE` if you want to delete the related record in the second table when a record in the first table is deleted.
+- If both tables are equally important and have a one-to-one relationship, you can choose either table to hold the foreign key.
+
+```typescript
+export const OrganizationTable = pgTable(
+  "organization",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    name: varchar("name", {
+      length: 33,
+    }).notNull(),
+  },
+  (table) => ({
+    uqOrganizationName: unique("uq_organization_name").on(table.name),
+  })
+);
+
+export const SpaceTable = pgTable(
+  "space",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    name: varchar("name", {
+      length: 33,
+    })
+      .notNull()
+      .unique("uniqueSpaceName"),
+    organizationId: uuid("organizationId")
+      .references(() => OrganizationTable.id, { onDelete: "cascade" })
+      .unique("uq_space_organizationId")
+      .notNull(),
+  },
+  (table) => ({
+    idxSpaceOrganizationId: index("idx_space_organizationId").on(
+      table.organizationId
+    ),
+  })
+);
+```
+
+### One-to-Many
+
+- **Foreign Key:** In a one-to-many relationship, the table that is on the "many" side of the relationship should hold the foreign key.
+- **Indexing:** Always create an index on the foreign key column to improve query performance.
+- **Nullability:** If every record in the "many" side table must have a corresponding record in the "one" side table, the foreign key column should be defined as `NOT NULL`
+- if it's possible for a record in the "many" side table to not have a related record in the "one" side table, the foreign key column should allow `NULL` values.
+- **onUpdate:** Use `ON UPDATE CASCADE` if you want to update the related records in the "many" side table when a record in the "one" side table is updated.
+- **onDelete:** Use `ON DELETE CASCADE` if you want to delete the related records in the "many" side table when a record in the "one" side table is deleted.
+
+```typescript
+export const OrganizationTable = pgTable(
+  "organization",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    name: varchar("name", {
+      length: 33,
+    }).notNull(),
+  },
+  (table) => ({
+    uqOrganizationName: unique("uq_organization_name").on(table.name),
+  })
+);
+
+export const SpaceTable = pgTable(
+  "space",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    name: varchar("name", {
+      length: 33,
+    })
+      .notNull()
+      .unique("uniqueSpaceName"),
+    organizationId: uuid("organizationId")
+      .references(() => OrganizationTable.id, { onDelete: "cascade" })
+      .notNull(), // 🚨 IF MUST HAVE USE .notNull(), REMOVE IT IF FIELD IS OPTIONAL
+  },
+  (table) => ({
+    idxSpaceOrganizationId: index("idx_space_organizationId").on(
+      table.organizationId
+    ),
+  })
+);
+```
+
+### Many-to-Many
+
+- **Join Table:** In a many-to-many relationship, you need to create a join table that holds the foreign keys of both tables.
+- **Primary Key:** The primary key of the join table should be a **composite key** made up of the foreign keys of both tables.
+- **Foreign Key:** The foreign keys in the join table should reference the primary keys of the two tables.
+- **Indexing:** Always create an index on the foreign key columns to improve query performance.
+
+```typescript
+export const CollectionTagTable = pgTable(
+  "collectionTag",
+  {
+    collectionId: uuid("collectionId")
+      .references(() => CollectionTable.id, { onDelete: "cascade" })
+      .notNull(),
+    tagId: uuid("tagId")
+      .references(() => TagTable.id, { onDelete: "cascade" })
+      .notNull(),
+  },
+  (table) => ({
+    pkCollectionTag: primaryKey({
+      name: "pk_collectionTag",
+      columns: [table.collectionId, table.tagId],
+    }),
+    idxCollectionTagCollectionId: index("idx_collectionTag_collectionId").on(
+      table.collectionId
+    ),
+    idxCollectionTagTagId: index("idx_collectionTag_TagId").on(table.tagId),
+  })
 );
 ```
