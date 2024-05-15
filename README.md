@@ -4,7 +4,7 @@
 
 - [Learn Drizzle](#learn-drizzle)
   - [Chapters](#chapters)
-  - [Drizzle](#drizzle)
+  - [TODO](#todo)
   - [Folder Structure](#folder-structure)
   - [Main Commands](#main-commands)
   - [Configuration](#configuration)
@@ -69,8 +69,54 @@
     - [One-to-One](#one-to-one)
     - [One-to-Many](#one-to-many)
     - [Many-to-Many](#many-to-many)
+  - [`insert`](#insert)
+    - [\[Official Link\] insert](#official-link-insert)
+    - [infer types](#infer-types)
+    - [Insert returning](#insert-returning)
+    - [On conflict `onConflictDoNothing` | `onConflictDoUpdate`](#on-conflict-onconflictdonothing--onconflictdoupdate)
+  - [`select`](#select)
+    - [\[Official Link\] select](#official-link-select)
+    - [Conditional select](#conditional-select)
+    - [Filtering | `.where()`](#filtering--where)
+      - [`eq` |`.where(eq(table.column, 5))` | `.where(eq(table.column1, table.column2))`](#eq-whereeqtablecolumn-5--whereeqtablecolumn1-tablecolumn2)
+      - [`ne` |`.where(ne(table.column, 5))`](#ne-wherenetablecolumn-5)
+      - [`gt` |`.where(gt(table.column, 5))`](#gt-wheregttablecolumn-5)
+      - [`gte` |`.where(gte(table.column, 5))`](#gte-wheregtetablecolumn-5)
+      - [`lt` |`.where(lt(table.column, 5))`](#lt-wherelttablecolumn-5)
+      - [`lte` |`.where(lte(table.column, 5))`](#lte-whereltetablecolumn-5)
+      - [`isNull` | `.where(isNull(table.column))`](#isnull--whereisnulltablecolumn)
+      - [`isNotNull` | `.where(isNotNull(table.column))`](#isnotnull--whereisnotnulltablecolumn)
+      - [`inArray` | `.where(inArray(table.column, [1, 2, 3]))`](#inarray--whereinarraytablecolumn-1-2-3)
+      - [`notInArray` | `.where(notInArray(table.column, [1, 2, 3]))`](#notinarray--wherenotinarraytablecolumn-1-2-3)
+      - [`exists` | `.where(exists(query))`](#exists--whereexistsquery)
+      - [`notExists` | `.where(notExists(query))`](#notexists--wherenotexistsquery)
+      - [`between` | `.where(between(table.column, 1, 5))`](#between--wherebetweentablecolumn-1-5)
+      - [`notBetween` | `.where(notBetween(table.column, 1, 5))`](#notbetween--wherenotbetweentablecolumn-1-5)
+      - [`like` | `.where(like(table.column, "%llo wor%"))`](#like--whereliketablecolumn-llo-wor)
+      - [`ilike` | `.where(ilike(table.column, "%llo wor%"))`](#ilike--whereiliketablecolumn-llo-wor)
+      - [`notIlike` | `.where(notIlike(table.column, "%llo wor%"))`](#notilike--wherenotiliketablecolumn-llo-wor)
+      - [`not` | `.where(not(eq(table.column, 5)))`](#not--wherenoteqtablecolumn-5)
+      - [`and` | `.where(and(eq(table.column1, 5), eq(table.column2, 10)))`](#and--whereandeqtablecolumn1-5-eqtablecolumn2-10)
+      - [`or` | `.where(or(eq(table.column1, 5), eq(table.column2, 10)))`](#or--whereoreqtablecolumn1-5-eqtablecolumn2-10)
+      - [`arrayContains`](#arraycontains)
+      - [`arrayContained`](#arraycontained)
+      - [`arrayOverlaps`](#arrayoverlaps)
+      - [Combining filters](#combining-filters)
+    - [Distinct | `.distinct()`](#distinct--distinct)
+    - [`.limit()`](#limit)
+    - [`.offset()`](#offset)
+    - [`.orderBy()` | `.asc()` | `.desc()`](#orderby--asc--desc)
+    - [`.$with()`](#with)
+    - [Select from sub-query](#select-from-sub-query)
+    - [Aggregations](#aggregations)
+      - [`count` | `.count()` | `.countDistinct()`](#count--count--countdistinct)
+      - [`avg` | `.avg()` | `.avgDistinct()`](#avg--avg--avgdistinct)
+      - [`sum` | `.sum()` | `.sumDistinct()`](#sum--sum--sumdistinct)
+      - [`max` | `.max()` | `min` | `.min()`](#max--max--min--min)
 
-## Drizzle
+## TODO
+
+- <https://www.postgresql.org/docs/current/functions-string.html>
 
 ## Folder Structure
 
@@ -964,4 +1010,287 @@ export const CollectionTagTable = pgTable(
     idxCollectionTagTagId: index("idx_collectionTag_TagId").on(table.tagId),
   })
 );
+```
+
+## `insert`
+
+### [[Official Link] insert](https://orm.drizzle.team/docs/insert)
+
+```typescript
+const organization = await db
+  .insert(OrganizationTable)
+  .values({
+    name: entry.name,
+    logo: entry.logo,
+  })
+  .returning();
+
+// multiple insert
+const organizations = await db
+  .insert(OrganizationTable)
+  .values([
+    {
+      name: "Organization 1",
+      logo: "logo1",
+    },
+    {
+      name: "Organization 2",
+      logo: "logo2",
+    },
+  ])
+  .returning();
+```
+
+### infer types
+
+```typescript
+type NewUser = typeof users.$inferInsert;
+```
+
+### Insert returning
+
+```typescript
+await db.insert(users).values({ name: "Dan" }).returning();
+
+// partial return
+await db
+  .insert(users)
+  .values({ name: "Partial Dan" })
+  .returning({ insertedId: users.id });
+```
+
+### On conflict `onConflictDoNothing` | `onConflictDoUpdate`
+
+```typescript
+await db.insert(users).values({ id: 1, name: "John" }).onConflictDoNothing();
+
+// explicitly specify conflict target
+await db
+  .insert(users)
+  .values({ id: 1, name: "John" })
+  .onConflictDoNothing({ target: users.id });
+
+// update on conflict
+await db
+  .insert(users)
+  .values({ id: 1, name: "Dan" })
+  .onConflictDoUpdate({ target: users.id, set: { name: "John" } });
+```
+
+## `select`
+
+### [[Official Link] select](https://orm.drizzle.team/docs/select)
+
+```typescript
+const organizations = await db.select().from(OrganizationTable);
+return organizations;
+
+// partial select
+const organizations = await db
+  .select({
+    name: OrganizationTable.name,
+    logo: OrganizationTable.logo,
+  })
+  .from(OrganizationTable);
+```
+
+### Conditional select
+
+`...(condition ? { property: value } : {})`
+
+```typescript
+async function selectUsers(withName: boolean) {
+  return db
+    .select({
+      id: users.id,
+      ...(withName ? { name: users.name } : {}),
+    })
+    .from(users);
+}
+const users = await selectUsers(true);
+```
+
+### Filtering | `.where()`
+
+```typescript
+import { eq, ne, gt, gte, ... } from "drizzle-orm";
+
+await db.select().from(table).where(eq(table.column, 5));
+```
+
+#### `eq` |`.where(eq(table.column, 5))` | `.where(eq(table.column1, table.column2))`
+
+#### `ne` |`.where(ne(table.column, 5))`
+
+#### `gt` |`.where(gt(table.column, 5))`
+
+#### `gte` |`.where(gte(table.column, 5))`
+
+#### `lt` |`.where(lt(table.column, 5))`
+
+#### `lte` |`.where(lte(table.column, 5))`
+
+#### `isNull` | `.where(isNull(table.column))`
+
+#### `isNotNull` | `.where(isNotNull(table.column))`
+
+#### `inArray` | `.where(inArray(table.column, [1, 2, 3]))`
+
+#### `notInArray` | `.where(notInArray(table.column, [1, 2, 3]))`
+
+#### `exists` | `.where(exists(query))`
+
+```typescript
+const query = db.select().from(table2);
+db.select().from(table).where(exists(query));
+```
+
+#### `notExists` | `.where(notExists(query))`
+
+#### `between` | `.where(between(table.column, 1, 5))`
+
+#### `notBetween` | `.where(notBetween(table.column, 1, 5))`
+
+#### `like` | `.where(like(table.column, "%llo wor%"))`
+
+```typescript
+// Find any values that start with "A"
+db.select().from(users).where(like(users.name, "A%"));
+
+// Find any values that end with "A"
+db.select().from(users).where(like(users.name, "%A"));
+
+// Find any values that contain "A" anywhere
+db.select().from(users).where(like(users.name, "%A%"));
+
+// Find any values that start with "A" and are at least 2 characters in length
+db.select().from(users).where(like(users.name, "A_%"));
+
+// Find any values that start with "A" and followed by exactly 5 characters
+db.select().from(users).where(like(users.name, "A_____"));
+
+// Find any values that start with "A" and end with "o"
+db.select().from(users).where(like(users.name, "A%o"));
+```
+
+#### `ilike` | `.where(ilike(table.column, "%llo wor%"))`
+
+#### `notIlike` | `.where(notIlike(table.column, "%llo wor%"))`
+
+#### `not` | `.where(not(eq(table.column, 5)))`
+
+All conditions must return `false`.
+
+#### `and` | `.where(and(eq(table.column1, 5), eq(table.column2, 10)))`
+
+All conditions must return `true`.
+
+#### `or` | `.where(or(eq(table.column1, 5), eq(table.column2, 10)))`
+
+At least one condition must return `true`.
+
+#### `arrayContains`
+
+#### `arrayContained`
+
+#### `arrayOverlaps`
+
+#### Combining filters
+
+```typescript
+await db
+  .select()
+  .from(users)
+  .where(and(eq(users.id, 42), eq(users.name, "Dan")));
+
+await db
+  .select()
+  .from(users)
+  .where(or(eq(users.id, 42), eq(users.name, "Dan")));
+```
+
+### Distinct | `.distinct()`
+
+You can use `.selectDistinct()` instead of `.select()` to retrieve only unique rows from a dataset:
+
+```typescript
+await db.selectDistinct().from(users).orderBy(usersTable.id, usersTable.name);
+
+await db.selectDistinct({ id: users.id }).from(users).orderBy(usersTable.id);
+```
+
+### `.limit()`
+
+```typescript
+await db.select().from(users).limit(10);
+```
+
+### `.offset()`
+
+```typescript
+await db.select().from(users).offset(10);
+```
+
+### `.orderBy()` | `.asc()` | `.desc()`
+
+```typescript
+await db.select().from(users).orderBy(users.id);
+await db.select().from(users).orderBy(asc(users.id));
+await db.select().from(users).orderBy(desc(users.id));
+```
+
+### `.$with()`
+
+Using the `with` clause can help you simplify complex queries by splitting them into smaller sub-queries called common table expressions (CTEs):
+
+```typescript
+const sq = db.$with("sq").as(db.select().from(users).where(eq(users.id, 42)));
+
+const result = await db.with(sq).select().from(sq);
+```
+
+### Select from sub-query
+
+```typescript
+const sq = db.select().from(users).where(eq(users.id, 42)).as("sq");
+const result = await db.select().from(sq);
+```
+
+### Aggregations
+
+```typescript
+import { max } from "drizzle-orm";
+```
+
+#### `count` | `.count()` | `.countDistinct()`
+
+```typescript
+await db.select({ value: count() }).from(users);
+await db.select({ value: count(users.id) }).from(users);
+
+await db.select({ value: countDistinct(users.id) }).from(users);
+```
+
+#### `avg` | `.avg()` | `.avgDistinct()`
+
+```typescript
+await db.select({ value: avg(users.id) }).from(users);
+
+await db.select({ value: avgDistinct(users.id) }).from(users);
+```
+
+#### `sum` | `.sum()` | `.sumDistinct()`
+
+```typescript
+await db.select({ value: sum(users.id) }).from(users);
+
+await db.select({ value: sumDistinct(users.id) }).from(users);
+```
+
+#### `max` | `.max()` | `min` | `.min()`
+
+```typescript
+await db.select({ value: max(users.id) }).from(users);
+
+await db.select({ value: min(users.id) }).from(users);
 ```
