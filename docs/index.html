@@ -102,7 +102,7 @@ aimed at beginners to understand the basics of Drizzle." />
 <li><a href="#learn-drizzle">Learn Drizzle</a>
 <ul>
 <li><a href="#chapters">Chapters</a></li>
-<li><a href="#drizzle">Drizzle</a></li>
+<li><a href="#todo">TODO</a></li>
 <li><a href="#folder-structure">Folder Structure</a></li>
 <li><a href="#main-commands">Main Commands</a></li>
 <li><a href="#configuration">Configuration</a>
@@ -211,7 +211,9 @@ href="#default--defaultrandom--defaultnow"><code>.default()</code> |
 <li><a href="#composite-primary-key">Composite Primary Key</a></li>
 </ul></li>
 <li><a href="#references--foreign-key"><code>.references()</code> |
-<code>FOREIGN KEY</code></a>
+<code>FOREIGN KEY</code></a></li>
+<li><a href="#foreign-key-actions--ondelete--onupdate">Foreign key
+actions | <code>onDelete</code> | <code>onUpdate</code></a>
 <ul>
 <li><a href="#self-referencing">Self-referencing</a></li>
 <li><a href="#multi-column-foreign-keys">Multi-column foreign
@@ -220,9 +222,110 @@ keys</a></li>
 <li><a href="#index--uniqueindex"><code>index</code> |
 <code>uniqueIndex</code></a></li>
 </ul></li>
+<li><a href="#relations">Relations</a>
+<ul>
+<li><a href="#one-to-one">One-to-One</a></li>
+<li><a href="#one-to-many">One-to-Many</a></li>
+<li><a href="#many-to-many">Many-to-Many</a></li>
+</ul></li>
+<li><a href="#insert"><code>insert</code></a>
+<ul>
+<li><a href="#official-link-insert">[Official Link] insert</a></li>
+<li><a href="#infer-types">infer types</a></li>
+<li><a href="#insert-returning">Insert returning</a></li>
+<li><a href="#on-conflict-onconflictdonothing--onconflictdoupdate">On
+conflict <code>onConflictDoNothing</code> |
+<code>onConflictDoUpdate</code></a></li>
+</ul></li>
+<li><a href="#select"><code>select</code></a>
+<ul>
+<li><a href="#official-link-select">[Official Link] select</a></li>
+<li><a href="#conditional-select">Conditional select</a></li>
+<li><a href="#filtering--where">Filtering | <code>.where()</code></a>
+<ul>
+<li><a
+href="#eq-whereeqtablecolumn-5--whereeqtablecolumn1-tablecolumn2"><code>eq</code>
+|<code>.where(eq(table.column, 5))</code> |
+<code>.where(eq(table.column1, table.column2))</code></a></li>
+<li><a href="#ne-wherenetablecolumn-5"><code>ne</code>
+|<code>.where(ne(table.column, 5))</code></a></li>
+<li><a href="#gt-wheregttablecolumn-5"><code>gt</code>
+|<code>.where(gt(table.column, 5))</code></a></li>
+<li><a href="#gte-wheregtetablecolumn-5"><code>gte</code>
+|<code>.where(gte(table.column, 5))</code></a></li>
+<li><a href="#lt-wherelttablecolumn-5"><code>lt</code>
+|<code>.where(lt(table.column, 5))</code></a></li>
+<li><a href="#lte-whereltetablecolumn-5"><code>lte</code>
+|<code>.where(lte(table.column, 5))</code></a></li>
+<li><a href="#isnull--whereisnulltablecolumn"><code>isNull</code> |
+<code>.where(isNull(table.column))</code></a></li>
+<li><a
+href="#isnotnull--whereisnotnulltablecolumn"><code>isNotNull</code> |
+<code>.where(isNotNull(table.column))</code></a></li>
+<li><a
+href="#inarray--whereinarraytablecolumn-1-2-3"><code>inArray</code> |
+<code>.where(inArray(table.column, [1, 2, 3]))</code></a></li>
+<li><a
+href="#notinarray--wherenotinarraytablecolumn-1-2-3"><code>notInArray</code>
+| <code>.where(notInArray(table.column, [1, 2, 3]))</code></a></li>
+<li><a href="#exists--whereexistsquery"><code>exists</code> |
+<code>.where(exists(query))</code></a></li>
+<li><a href="#notexists--wherenotexistsquery"><code>notExists</code> |
+<code>.where(notExists(query))</code></a></li>
+<li><a href="#between--wherebetweentablecolumn-1-5"><code>between</code>
+| <code>.where(between(table.column, 1, 5))</code></a></li>
+<li><a
+href="#notbetween--wherenotbetweentablecolumn-1-5"><code>notBetween</code>
+| <code>.where(notBetween(table.column, 1, 5))</code></a></li>
+<li><a href="#like--whereliketablecolumn-llo-wor"><code>like</code> |
+<code>.where(like(table.column, "%llo wor%"))</code></a></li>
+<li><a href="#ilike--whereiliketablecolumn-llo-wor"><code>ilike</code> |
+<code>.where(ilike(table.column, "%llo wor%"))</code></a></li>
+<li><a
+href="#notilike--wherenotiliketablecolumn-llo-wor"><code>notIlike</code>
+| <code>.where(notIlike(table.column, "%llo wor%"))</code></a></li>
+<li><a href="#not--wherenoteqtablecolumn-5"><code>not</code> |
+<code>.where(not(eq(table.column, 5)))</code></a></li>
+<li><a
+href="#and--whereandeqtablecolumn1-5-eqtablecolumn2-10"><code>and</code>
+|
+<code>.where(and(eq(table.column1, 5), eq(table.column2, 10)))</code></a></li>
+<li><a
+href="#or--whereoreqtablecolumn1-5-eqtablecolumn2-10"><code>or</code> |
+<code>.where(or(eq(table.column1, 5), eq(table.column2, 10)))</code></a></li>
+<li><a href="#arraycontains"><code>arrayContains</code></a></li>
+<li><a href="#arraycontained"><code>arrayContained</code></a></li>
+<li><a href="#arrayoverlaps"><code>arrayOverlaps</code></a></li>
+<li><a href="#combining-filters">Combining filters</a></li>
+</ul></li>
+<li><a href="#distinct--distinct">Distinct |
+<code>.distinct()</code></a></li>
+<li><a href="#limit"><code>.limit()</code></a></li>
+<li><a href="#offset"><code>.offset()</code></a></li>
+<li><a href="#orderby--asc--desc"><code>.orderBy()</code> |
+<code>.asc()</code> | <code>.desc()</code></a></li>
+<li><a href="#with"><code>.$with()</code></a></li>
+<li><a href="#select-from-sub-query">Select from sub-query</a></li>
+<li><a href="#aggregations">Aggregations</a>
+<ul>
+<li><a href="#count--count--countdistinct"><code>count</code> |
+<code>.count()</code> | <code>.countDistinct()</code></a></li>
+<li><a href="#avg--avg--avgdistinct"><code>avg</code> |
+<code>.avg()</code> | <code>.avgDistinct()</code></a></li>
+<li><a href="#sum--sum--sumdistinct"><code>sum</code> |
+<code>.sum()</code> | <code>.sumDistinct()</code></a></li>
+<li><a href="#max--max--min--min"><code>max</code> | <code>.max()</code>
+| <code>min</code> | <code>.min()</code></a></li>
+</ul></li>
+</ul></li>
 </ul></li>
 </ul>
-<h2 id="drizzle">Drizzle</h2>
+<h2 id="todo">TODO</h2>
+<ul>
+<li><a
+href="https://www.postgresql.org/docs/current/functions-string.html"
+class="uri">https://www.postgresql.org/docs/current/functions-string.html</a></li>
+</ul>
 <h2 id="folder-structure">Folder Structure</h2>
 <pre><code>📦&lt;project root&gt;
 |-...
@@ -846,33 +949,55 @@ class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb42
 <span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;id&quot;</span>)<span class="op">.</span><span class="fu">primaryKey</span>()<span class="op">,</span></span>
 <span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  userId<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;userId&quot;</span>)<span class="op">.</span><span class="fu">references</span>(() <span class="kw">=&gt;</span> userTable<span class="op">.</span><span class="at">id</span>)<span class="op">,</span></span>
 <span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
-<h4 id="self-referencing">Self-referencing</h4>
+<h3 id="foreign-key-actions-ondelete-onupdate">Foreign key actions |
+<code>onDelete</code> | <code>onUpdate</code></h3>
+<ul>
+<li><code>CASCADE</code> | <code>cascade</code>: When the referenced row
+is deleted, also delete the rows that reference it.</li>
+<li><code>SET NULL</code> | <code>set null</code>: When the referenced
+row is deleted, set the referencing columns to NULL.</li>
+<li><code>NO ACTION</code> | <code>no action</code>: Do nothing when the
+referenced row is deleted.</li>
+<li><code>RESTRICT</code> | <code>restrict</code>: Prevent the deletion
+of a referenced row.</li>
+<li><code>SET DEFAULT</code> | <code>set default</code>: Set the
+referencing columns to their default values.</li>
+</ul>
 <div class="sourceCode" id="cb43"><pre
-class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> user <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;user&quot;</span><span class="op">,</span> {</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="fu">serial</span>(<span class="st">&quot;id&quot;</span>)<span class="op">,</span></span>
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> posts <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;posts&quot;</span><span class="op">,</span> {</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="fu">serial</span>(<span class="st">&quot;id&quot;</span>)<span class="op">.</span><span class="fu">primaryKey</span>()<span class="op">,</span></span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;name&quot;</span>)<span class="op">,</span></span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  parentId<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;parent_id&quot;</span>)<span class="op">.</span><span class="fu">references</span>(()<span class="op">:</span> AnyPgColumn <span class="kw">=&gt;</span> user<span class="op">.</span><span class="at">id</span>)<span class="op">,</span></span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="co">// or</span></span>
-<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> user <span class="op">=</span> <span class="fu">pgTable</span>(</span>
-<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;user&quot;</span><span class="op">,</span></span>
-<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="fu">serial</span>(<span class="st">&quot;id&quot;</span>)<span class="op">,</span></span>
-<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;name&quot;</span>)<span class="op">,</span></span>
-<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>    parentId<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;parent_id&quot;</span>)<span class="op">,</span></span>
-<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>  (table) <span class="kw">=&gt;</span> {</span>
-<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
-<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>      parentReference<span class="op">:</span> <span class="fu">foreignKey</span>({</span>
-<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>        columns<span class="op">:</span> [table<span class="op">.</span><span class="at">parentId</span>]<span class="op">,</span></span>
-<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a>        foreignColumns<span class="op">:</span> [table<span class="op">.</span><span class="at">id</span>]<span class="op">,</span></span>
-<span id="cb43-21"><a href="#cb43-21" aria-hidden="true" tabindex="-1"></a>        name<span class="op">:</span> <span class="st">&quot;custom_fk&quot;</span><span class="op">,</span></span>
-<span id="cb43-22"><a href="#cb43-22" aria-hidden="true" tabindex="-1"></a>      })<span class="op">,</span></span>
-<span id="cb43-23"><a href="#cb43-23" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
-<span id="cb43-24"><a href="#cb43-24" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb43-25"><a href="#cb43-25" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre></div>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  author<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;author&quot;</span>)</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">references</span>(() <span class="kw">=&gt;</span> users<span class="op">.</span><span class="at">id</span><span class="op">,</span> { onDelete<span class="op">:</span> <span class="st">&quot;cascade&quot;</span> })</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">notNull</span>()<span class="op">,</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h4 id="self-referencing">Self-referencing</h4>
+<div class="sourceCode" id="cb44"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> user <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;user&quot;</span><span class="op">,</span> {</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="fu">serial</span>(<span class="st">&quot;id&quot;</span>)<span class="op">,</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;name&quot;</span>)<span class="op">,</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  parentId<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;parent_id&quot;</span>)<span class="op">.</span><span class="fu">references</span>(()<span class="op">:</span> AnyPgColumn <span class="kw">=&gt;</span> user<span class="op">.</span><span class="at">id</span>)<span class="op">,</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="co">// or</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> user <span class="op">=</span> <span class="fu">pgTable</span>(</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;user&quot;</span><span class="op">,</span></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="fu">serial</span>(<span class="st">&quot;id&quot;</span>)<span class="op">,</span></span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;name&quot;</span>)<span class="op">,</span></span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>    parentId<span class="op">:</span> <span class="fu">integer</span>(<span class="st">&quot;parent_id&quot;</span>)<span class="op">,</span></span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>  (table) <span class="kw">=&gt;</span> {</span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>      parentReference<span class="op">:</span> <span class="fu">foreignKey</span>({</span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>        columns<span class="op">:</span> [table<span class="op">.</span><span class="at">parentId</span>]<span class="op">,</span></span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>        foreignColumns<span class="op">:</span> [table<span class="op">.</span><span class="at">id</span>]<span class="op">,</span></span>
+<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a>        name<span class="op">:</span> <span class="st">&quot;custom_fk&quot;</span><span class="op">,</span></span>
+<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a>      })<span class="op">,</span></span>
+<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre></div>
 <h4 id="multi-column-foreign-keys">Multi-column foreign keys</h4>
 <p>If the table you are referencing has a composite primary key (a
 primary key made up of multiple columns), then you would need to use a
@@ -880,50 +1005,428 @@ multi-column foreign key in the referencing table. This multi-column
 foreign key would need to have the same number of columns as the
 composite primary key, and the data types of the corresponding columns
 must also match.</p>
-<div class="sourceCode" id="cb44"><pre
-class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { serial<span class="op">,</span> text<span class="op">,</span> foreignKey<span class="op">,</span> pgTable<span class="op">,</span> AnyPgColumn } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> user <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;user&quot;</span><span class="op">,</span> {</span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  firstName<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;firstName&quot;</span>)<span class="op">,</span></span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  lastName<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;lastName&quot;</span>)<span class="op">,</span></span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>}<span class="op">,</span> (table) <span class="kw">=&gt;</span> {</span>
-<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> {</span>
-<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>    pk<span class="op">:</span> <span class="fu">primaryKey</span>({ columns<span class="op">:</span> [table<span class="op">.</span><span class="at">firstName</span><span class="op">,</span> table<span class="op">.</span><span class="at">lastName</span>]})<span class="op">,</span></span>
-<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
-<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> profile <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;profile&quot;</span><span class="op">,</span> {</span>
-<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="fu">serial</span>(<span class="st">&quot;id&quot;</span>)<span class="op">.</span><span class="fu">primaryKey</span>()<span class="op">,</span></span>
-<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>  userFirstName<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;user_first_name&quot;</span>)<span class="op">,</span></span>
-<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>  userLastName<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;user_last_name&quot;</span>)<span class="op">,</span></span>
-<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>}<span class="op">,</span> (table) <span class="kw">=&gt;</span> {</span>
-<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> {</span>
-<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>    userReference<span class="op">:</span> <span class="fu">foreignKey</span>({</span>
-<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>      columns<span class="op">:</span> [table<span class="op">.</span><span class="at">userFirstName</span><span class="op">,</span> table<span class="op">.</span><span class="at">userLastName</span>]<span class="op">,</span></span>
-<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a>      foreignColumns<span class="op">:</span> [user<span class="op">.</span><span class="at">firstName</span><span class="op">,</span> user<span class="op">.</span><span class="at">lastName</span>]</span>
-<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a>      name<span class="op">:</span> <span class="st">&quot;custom_fk&quot;</span></span>
-<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { serial<span class="op">,</span> text<span class="op">,</span> foreignKey<span class="op">,</span> pgTable<span class="op">,</span> AnyPgColumn } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> user <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;user&quot;</span><span class="op">,</span> {</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  firstName<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;firstName&quot;</span>)<span class="op">,</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>  lastName<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;lastName&quot;</span>)<span class="op">,</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>}<span class="op">,</span> (table) <span class="kw">=&gt;</span> {</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> {</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>    pk<span class="op">:</span> <span class="fu">primaryKey</span>({ columns<span class="op">:</span> [table<span class="op">.</span><span class="at">firstName</span><span class="op">,</span> table<span class="op">.</span><span class="at">lastName</span>]})<span class="op">,</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> profile <span class="op">=</span> <span class="fu">pgTable</span>(<span class="st">&quot;profile&quot;</span><span class="op">,</span> {</span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="fu">serial</span>(<span class="st">&quot;id&quot;</span>)<span class="op">.</span><span class="fu">primaryKey</span>()<span class="op">,</span></span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>  userFirstName<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;user_first_name&quot;</span>)<span class="op">,</span></span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>  userLastName<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;user_last_name&quot;</span>)<span class="op">,</span></span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>}<span class="op">,</span> (table) <span class="kw">=&gt;</span> {</span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> {</span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>    userReference<span class="op">:</span> <span class="fu">foreignKey</span>({</span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>      columns<span class="op">:</span> [table<span class="op">.</span><span class="at">userFirstName</span><span class="op">,</span> table<span class="op">.</span><span class="at">userLastName</span>]<span class="op">,</span></span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>      foreignColumns<span class="op">:</span> [user<span class="op">.</span><span class="at">firstName</span><span class="op">,</span> user<span class="op">.</span><span class="at">lastName</span>]</span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>      name<span class="op">:</span> <span class="st">&quot;custom_fk&quot;</span></span>
+<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
 <h3 id="index-uniqueindex"><code>index</code> |
 <code>uniqueIndex</code></h3>
-<div class="sourceCode" id="cb45"><pre
-class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { serial<span class="op">,</span> text<span class="op">,</span> index<span class="op">,</span> uniqueIndex<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> user <span class="op">=</span> <span class="fu">pgTable</span>(</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;user&quot;</span><span class="op">,</span></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="fu">serial</span>(<span class="st">&quot;id&quot;</span>)<span class="op">.</span><span class="fu">primaryKey</span>()<span class="op">,</span></span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;name&quot;</span>)<span class="op">,</span></span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    email<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;email&quot;</span>)<span class="op">,</span></span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>  (table) <span class="kw">=&gt;</span> {</span>
-<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
-<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>      nameIdx<span class="op">:</span> <span class="fu">index</span>(<span class="st">&quot;name_idx&quot;</span>)<span class="op">.</span><span class="fu">on</span>(table<span class="op">.</span><span class="at">name</span>)<span class="op">,</span></span>
-<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>      emailIdx<span class="op">:</span> <span class="fu">uniqueIndex</span>(<span class="st">&quot;email_idx&quot;</span>)<span class="op">.</span><span class="fu">on</span>(table<span class="op">.</span><span class="at">email</span>)<span class="op">,</span></span>
-<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
-<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre></div></div>
+<div class="sourceCode" id="cb46"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { serial<span class="op">,</span> text<span class="op">,</span> index<span class="op">,</span> uniqueIndex<span class="op">,</span> pgTable } <span class="im">from</span> <span class="st">&quot;drizzle-orm/pg-core&quot;</span><span class="op">;</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> user <span class="op">=</span> <span class="fu">pgTable</span>(</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;user&quot;</span><span class="op">,</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="fu">serial</span>(<span class="st">&quot;id&quot;</span>)<span class="op">.</span><span class="fu">primaryKey</span>()<span class="op">,</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;name&quot;</span>)<span class="op">,</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>    email<span class="op">:</span> <span class="fu">text</span>(<span class="st">&quot;email&quot;</span>)<span class="op">,</span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>  (table) <span class="kw">=&gt;</span> {</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>      nameIdx<span class="op">:</span> <span class="fu">index</span>(<span class="st">&quot;name_idx&quot;</span>)<span class="op">.</span><span class="fu">on</span>(table<span class="op">.</span><span class="at">name</span>)<span class="op">,</span></span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>      emailIdx<span class="op">:</span> <span class="fu">uniqueIndex</span>(<span class="st">&quot;email_idx&quot;</span>)<span class="op">.</span><span class="fu">on</span>(table<span class="op">.</span><span class="at">email</span>)<span class="op">,</span></span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre></div>
+<h2 id="relations">Relations</h2>
+<h3 id="one-to-one">One-to-One</h3>
+<p>In a parent-child relationship, the child table should hold the
+foreign key. This foreign key references the primary key of the parent
+table. This establishes a relationship where each record in the child
+table is related to a record in the parent table.</p>
+<ul>
+<li><strong>Indexing:</strong> Always create an index on the foreign key
+column to improve query performance.</li>
+<li><strong>uniqueness:</strong> The foreign key column should be
+defined with <code>UNIQUE</code> constraint to ensure one-to-one
+relationship.</li>
+<li><strong>Nullability:</strong> If every record in the first table
+must have a corresponding record in the second table, the foreign key
+column should be defined as <code>NOT NULL</code>.</li>
+<li><strong>onUpdate:</strong> Use <code>ON UPDATE CASCADE</code> if you
+want to update the related record in the second table when a record in
+the first table is updated.</li>
+<li><strong>onDelete:</strong> Use <code>ON DELETE CASCADE</code> if you
+want to delete the related record in the second table when a record in
+the first table is deleted.</li>
+<li>If both tables are equally important and have a one-to-one
+relationship, you can choose either table to hold the foreign key.</li>
+</ul>
+<div class="sourceCode" id="cb47"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> OrganizationTable <span class="op">=</span> <span class="fu">pgTable</span>(</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;organization&quot;</span><span class="op">,</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="fu">uuid</span>(<span class="st">&quot;id&quot;</span>)<span class="op">.</span><span class="fu">defaultRandom</span>()<span class="op">.</span><span class="fu">primaryKey</span>()<span class="op">,</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> <span class="fu">varchar</span>(<span class="st">&quot;name&quot;</span><span class="op">,</span> {</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>      length<span class="op">:</span> <span class="dv">33</span><span class="op">,</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>    })<span class="op">.</span><span class="fu">notNull</span>()<span class="op">,</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>  (table) <span class="kw">=&gt;</span> ({</span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>    uqOrganizationName<span class="op">:</span> <span class="fu">unique</span>(<span class="st">&quot;uq_organization_name&quot;</span>)<span class="op">.</span><span class="fu">on</span>(table<span class="op">.</span><span class="at">name</span>)<span class="op">,</span></span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> SpaceTable <span class="op">=</span> <span class="fu">pgTable</span>(</span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;space&quot;</span><span class="op">,</span></span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="fu">uuid</span>(<span class="st">&quot;id&quot;</span>)<span class="op">.</span><span class="fu">defaultRandom</span>()<span class="op">.</span><span class="fu">primaryKey</span>()<span class="op">,</span></span>
+<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> <span class="fu">varchar</span>(<span class="st">&quot;name&quot;</span><span class="op">,</span> {</span>
+<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a>      length<span class="op">:</span> <span class="dv">33</span><span class="op">,</span></span>
+<span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb47-21"><a href="#cb47-21" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">notNull</span>()</span>
+<span id="cb47-22"><a href="#cb47-22" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">unique</span>(<span class="st">&quot;uniqueSpaceName&quot;</span>)<span class="op">,</span></span>
+<span id="cb47-23"><a href="#cb47-23" aria-hidden="true" tabindex="-1"></a>    organizationId<span class="op">:</span> <span class="fu">uuid</span>(<span class="st">&quot;organizationId&quot;</span>)</span>
+<span id="cb47-24"><a href="#cb47-24" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">references</span>(() <span class="kw">=&gt;</span> OrganizationTable<span class="op">.</span><span class="at">id</span><span class="op">,</span> { onDelete<span class="op">:</span> <span class="st">&quot;cascade&quot;</span> })</span>
+<span id="cb47-25"><a href="#cb47-25" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">unique</span>(<span class="st">&quot;uq_space_organizationId&quot;</span>)</span>
+<span id="cb47-26"><a href="#cb47-26" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">notNull</span>()<span class="op">,</span></span>
+<span id="cb47-27"><a href="#cb47-27" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb47-28"><a href="#cb47-28" aria-hidden="true" tabindex="-1"></a>  (table) <span class="kw">=&gt;</span> ({</span>
+<span id="cb47-29"><a href="#cb47-29" aria-hidden="true" tabindex="-1"></a>    idxSpaceOrganizationId<span class="op">:</span> <span class="fu">index</span>(<span class="st">&quot;idx_space_organizationId&quot;</span>)<span class="op">.</span><span class="fu">on</span>(</span>
+<span id="cb47-30"><a href="#cb47-30" aria-hidden="true" tabindex="-1"></a>      table<span class="op">.</span><span class="at">organizationId</span></span>
+<span id="cb47-31"><a href="#cb47-31" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb47-32"><a href="#cb47-32" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb47-33"><a href="#cb47-33" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre></div>
+<h3 id="one-to-many">One-to-Many</h3>
+<ul>
+<li><strong>Foreign Key:</strong> In a one-to-many relationship, the
+table that is on the “many” side of the relationship should hold the
+foreign key.</li>
+<li><strong>Indexing:</strong> Always create an index on the foreign key
+column to improve query performance.</li>
+<li><strong>Nullability:</strong> If every record in the “many” side
+table must have a corresponding record in the “one” side table, the
+foreign key column should be defined as <code>NOT NULL</code></li>
+<li>if it’s possible for a record in the “many” side table to not have a
+related record in the “one” side table, the foreign key column should
+allow <code>NULL</code> values.</li>
+<li><strong>onUpdate:</strong> Use <code>ON UPDATE CASCADE</code> if you
+want to update the related records in the “many” side table when a
+record in the “one” side table is updated.</li>
+<li><strong>onDelete:</strong> Use <code>ON DELETE CASCADE</code> if you
+want to delete the related records in the “many” side table when a
+record in the “one” side table is deleted.</li>
+</ul>
+<div class="sourceCode" id="cb48"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> OrganizationTable <span class="op">=</span> <span class="fu">pgTable</span>(</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;organization&quot;</span><span class="op">,</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="fu">uuid</span>(<span class="st">&quot;id&quot;</span>)<span class="op">.</span><span class="fu">defaultRandom</span>()<span class="op">.</span><span class="fu">primaryKey</span>()<span class="op">,</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> <span class="fu">varchar</span>(<span class="st">&quot;name&quot;</span><span class="op">,</span> {</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>      length<span class="op">:</span> <span class="dv">33</span><span class="op">,</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>    })<span class="op">.</span><span class="fu">notNull</span>()<span class="op">,</span></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>  (table) <span class="kw">=&gt;</span> ({</span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>    uqOrganizationName<span class="op">:</span> <span class="fu">unique</span>(<span class="st">&quot;uq_organization_name&quot;</span>)<span class="op">.</span><span class="fu">on</span>(table<span class="op">.</span><span class="at">name</span>)<span class="op">,</span></span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> SpaceTable <span class="op">=</span> <span class="fu">pgTable</span>(</span>
+<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;space&quot;</span><span class="op">,</span></span>
+<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="fu">uuid</span>(<span class="st">&quot;id&quot;</span>)<span class="op">.</span><span class="fu">defaultRandom</span>()<span class="op">.</span><span class="fu">primaryKey</span>()<span class="op">,</span></span>
+<span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> <span class="fu">varchar</span>(<span class="st">&quot;name&quot;</span><span class="op">,</span> {</span>
+<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a>      length<span class="op">:</span> <span class="dv">33</span><span class="op">,</span></span>
+<span id="cb48-20"><a href="#cb48-20" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb48-21"><a href="#cb48-21" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">notNull</span>()</span>
+<span id="cb48-22"><a href="#cb48-22" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">unique</span>(<span class="st">&quot;uniqueSpaceName&quot;</span>)<span class="op">,</span></span>
+<span id="cb48-23"><a href="#cb48-23" aria-hidden="true" tabindex="-1"></a>    organizationId<span class="op">:</span> <span class="fu">uuid</span>(<span class="st">&quot;organizationId&quot;</span>)</span>
+<span id="cb48-24"><a href="#cb48-24" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">references</span>(() <span class="kw">=&gt;</span> OrganizationTable<span class="op">.</span><span class="at">id</span><span class="op">,</span> { onDelete<span class="op">:</span> <span class="st">&quot;cascade&quot;</span> })</span>
+<span id="cb48-25"><a href="#cb48-25" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">notNull</span>()<span class="op">,</span> <span class="co">// 🚨 IF MUST HAVE USE .notNull(), REMOVE IT IF FIELD IS OPTIONAL</span></span>
+<span id="cb48-26"><a href="#cb48-26" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb48-27"><a href="#cb48-27" aria-hidden="true" tabindex="-1"></a>  (table) <span class="kw">=&gt;</span> ({</span>
+<span id="cb48-28"><a href="#cb48-28" aria-hidden="true" tabindex="-1"></a>    idxSpaceOrganizationId<span class="op">:</span> <span class="fu">index</span>(<span class="st">&quot;idx_space_organizationId&quot;</span>)<span class="op">.</span><span class="fu">on</span>(</span>
+<span id="cb48-29"><a href="#cb48-29" aria-hidden="true" tabindex="-1"></a>      table<span class="op">.</span><span class="at">organizationId</span></span>
+<span id="cb48-30"><a href="#cb48-30" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb48-31"><a href="#cb48-31" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb48-32"><a href="#cb48-32" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre></div>
+<h3 id="many-to-many">Many-to-Many</h3>
+<ul>
+<li><strong>Join Table:</strong> In a many-to-many relationship, you
+need to create a join table that holds the foreign keys of both
+tables.</li>
+<li><strong>Primary Key:</strong> The primary key of the join table
+should be a <strong>composite key</strong> made up of the foreign keys
+of both tables.</li>
+<li><strong>Foreign Key:</strong> The foreign keys in the join table
+should reference the primary keys of the two tables.</li>
+<li><strong>Indexing:</strong> Always create an index on the foreign key
+columns to improve query performance.</li>
+</ul>
+<div class="sourceCode" id="cb49"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> CollectionTagTable <span class="op">=</span> <span class="fu">pgTable</span>(</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;collectionTag&quot;</span><span class="op">,</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    collectionId<span class="op">:</span> <span class="fu">uuid</span>(<span class="st">&quot;collectionId&quot;</span>)</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">references</span>(() <span class="kw">=&gt;</span> CollectionTable<span class="op">.</span><span class="at">id</span><span class="op">,</span> { onDelete<span class="op">:</span> <span class="st">&quot;cascade&quot;</span> })</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">notNull</span>()<span class="op">,</span></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>    tagId<span class="op">:</span> <span class="fu">uuid</span>(<span class="st">&quot;tagId&quot;</span>)</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">references</span>(() <span class="kw">=&gt;</span> TagTable<span class="op">.</span><span class="at">id</span><span class="op">,</span> { onDelete<span class="op">:</span> <span class="st">&quot;cascade&quot;</span> })</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">notNull</span>()<span class="op">,</span></span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>  (table) <span class="kw">=&gt;</span> ({</span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>    pkCollectionTag<span class="op">:</span> <span class="fu">primaryKey</span>({</span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>      name<span class="op">:</span> <span class="st">&quot;pk_collectionTag&quot;</span><span class="op">,</span></span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>      columns<span class="op">:</span> [table<span class="op">.</span><span class="at">collectionId</span><span class="op">,</span> table<span class="op">.</span><span class="at">tagId</span>]<span class="op">,</span></span>
+<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a>    })<span class="op">,</span></span>
+<span id="cb49-16"><a href="#cb49-16" aria-hidden="true" tabindex="-1"></a>    idxCollectionTagCollectionId<span class="op">:</span> <span class="fu">index</span>(<span class="st">&quot;idx_collectionTag_collectionId&quot;</span>)<span class="op">.</span><span class="fu">on</span>(</span>
+<span id="cb49-17"><a href="#cb49-17" aria-hidden="true" tabindex="-1"></a>      table<span class="op">.</span><span class="at">collectionId</span></span>
+<span id="cb49-18"><a href="#cb49-18" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb49-19"><a href="#cb49-19" aria-hidden="true" tabindex="-1"></a>    idxCollectionTagTagId<span class="op">:</span> <span class="fu">index</span>(<span class="st">&quot;idx_collectionTag_TagId&quot;</span>)<span class="op">.</span><span class="fu">on</span>(table<span class="op">.</span><span class="at">tagId</span>)<span class="op">,</span></span>
+<span id="cb49-20"><a href="#cb49-20" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb49-21"><a href="#cb49-21" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre></div>
+<h2 id="insert"><code>insert</code></h2>
+<h3 id="official-link-insert"><a
+href="https://orm.drizzle.team/docs/insert">[Official Link]
+insert</a></h3>
+<div class="sourceCode" id="cb50"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> organization <span class="op">=</span> <span class="cf">await</span> db</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">insert</span>(OrganizationTable)</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">values</span>({</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> entry<span class="op">.</span><span class="at">name</span><span class="op">,</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>    logo<span class="op">:</span> entry<span class="op">.</span><span class="at">logo</span><span class="op">,</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">returning</span>()<span class="op">;</span></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a><span class="co">// multiple insert</span></span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> organizations <span class="op">=</span> <span class="cf">await</span> db</span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">insert</span>(OrganizationTable)</span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">values</span>([</span>
+<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a>      name<span class="op">:</span> <span class="st">&quot;Organization 1&quot;</span><span class="op">,</span></span>
+<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a>      logo<span class="op">:</span> <span class="st">&quot;logo1&quot;</span><span class="op">,</span></span>
+<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb50-17"><a href="#cb50-17" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb50-18"><a href="#cb50-18" aria-hidden="true" tabindex="-1"></a>      name<span class="op">:</span> <span class="st">&quot;Organization 2&quot;</span><span class="op">,</span></span>
+<span id="cb50-19"><a href="#cb50-19" aria-hidden="true" tabindex="-1"></a>      logo<span class="op">:</span> <span class="st">&quot;logo2&quot;</span><span class="op">,</span></span>
+<span id="cb50-20"><a href="#cb50-20" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb50-21"><a href="#cb50-21" aria-hidden="true" tabindex="-1"></a>  ])</span>
+<span id="cb50-22"><a href="#cb50-22" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">returning</span>()<span class="op">;</span></span></code></pre></div>
+<h3 id="infer-types">infer types</h3>
+<div class="sourceCode" id="cb51"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> NewUser <span class="op">=</span> <span class="kw">typeof</span> users<span class="op">.</span><span class="at">$inferInsert</span><span class="op">;</span></span></code></pre></div>
+<h3 id="insert-returning">Insert returning</h3>
+<div class="sourceCode" id="cb52"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db<span class="op">.</span><span class="fu">insert</span>(users)<span class="op">.</span><span class="fu">values</span>({ name<span class="op">:</span> <span class="st">&quot;Dan&quot;</span> })<span class="op">.</span><span class="fu">returning</span>()<span class="op">;</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="co">// partial return</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">insert</span>(users)</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">values</span>({ name<span class="op">:</span> <span class="st">&quot;Partial Dan&quot;</span> })</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">returning</span>({ insertedId<span class="op">:</span> users<span class="op">.</span><span class="at">id</span> })<span class="op">;</span></span></code></pre></div>
+<h3 id="on-conflict-onconflictdonothing-onconflictdoupdate">On conflict
+<code>onConflictDoNothing</code> | <code>onConflictDoUpdate</code></h3>
+<div class="sourceCode" id="cb53"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db<span class="op">.</span><span class="fu">insert</span>(users)<span class="op">.</span><span class="fu">values</span>({ id<span class="op">:</span> <span class="dv">1</span><span class="op">,</span> name<span class="op">:</span> <span class="st">&quot;John&quot;</span> })<span class="op">.</span><span class="fu">onConflictDoNothing</span>()<span class="op">;</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="co">// explicitly specify conflict target</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">insert</span>(users)</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">values</span>({ id<span class="op">:</span> <span class="dv">1</span><span class="op">,</span> name<span class="op">:</span> <span class="st">&quot;John&quot;</span> })</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">onConflictDoNothing</span>({ target<span class="op">:</span> users<span class="op">.</span><span class="at">id</span> })<span class="op">;</span></span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a><span class="co">// update on conflict</span></span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db</span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">insert</span>(users)</span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">values</span>({ id<span class="op">:</span> <span class="dv">1</span><span class="op">,</span> name<span class="op">:</span> <span class="st">&quot;Dan&quot;</span> })</span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">onConflictDoUpdate</span>({ target<span class="op">:</span> users<span class="op">.</span><span class="at">id</span><span class="op">,</span> <span class="kw">set</span><span class="op">:</span> { name<span class="op">:</span> <span class="st">&quot;John&quot;</span> } })<span class="op">;</span></span></code></pre></div>
+<h2 id="select"><code>select</code></h2>
+<h3 id="official-link-select"><a
+href="https://orm.drizzle.team/docs/select">[Official Link]
+select</a></h3>
+<div class="sourceCode" id="cb54"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> organizations <span class="op">=</span> <span class="cf">await</span> db<span class="op">.</span><span class="fu">select</span>()<span class="op">.</span><span class="fu">from</span>(OrganizationTable)<span class="op">;</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="cf">return</span> organizations<span class="op">;</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="co">// partial select</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> organizations <span class="op">=</span> <span class="cf">await</span> db</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">select</span>({</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> OrganizationTable<span class="op">.</span><span class="at">name</span><span class="op">,</span></span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>    logo<span class="op">:</span> OrganizationTable<span class="op">.</span><span class="at">logo</span><span class="op">,</span></span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">from</span>(OrganizationTable)<span class="op">;</span></span></code></pre></div>
+<h3 id="conditional-select">Conditional select</h3>
+<p><code>...(condition ? { property: value } : {})</code></p>
+<div class="sourceCode" id="cb55"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">selectUsers</span>(withName<span class="op">:</span> <span class="dt">boolean</span>) {</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> db</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">select</span>({</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>      id<span class="op">:</span> users<span class="op">.</span><span class="at">id</span><span class="op">,</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>      <span class="op">...</span>(withName <span class="op">?</span> { name<span class="op">:</span> users<span class="op">.</span><span class="at">name</span> } <span class="op">:</span> {})<span class="op">,</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">from</span>(users)<span class="op">;</span></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> users <span class="op">=</span> <span class="cf">await</span> <span class="fu">selectUsers</span>(<span class="kw">true</span>)<span class="op">;</span></span></code></pre></div>
+<h3 id="filtering-.where">Filtering | <code>.where()</code></h3>
+<div class="sourceCode" id="cb56"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { eq<span class="op">,</span> ne<span class="op">,</span> gt<span class="op">,</span> gte<span class="op">,</span> <span class="op">...</span> } <span class="im">from</span> <span class="st">&quot;drizzle-orm&quot;</span><span class="op">;</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db<span class="op">.</span><span class="fu">select</span>()<span class="op">.</span><span class="fu">from</span>(table)<span class="op">.</span><span class="fu">where</span>(<span class="fu">eq</span>(table<span class="op">.</span><span class="at">column</span><span class="op">,</span> <span class="dv">5</span>))<span class="op">;</span></span></code></pre></div>
+<h4
+id="eq-.whereeqtable.column-5-.whereeqtable.column1-table.column2"><code>eq</code>
+|<code>.where(eq(table.column, 5))</code> |
+<code>.where(eq(table.column1, table.column2))</code></h4>
+<h4 id="ne-.wherenetable.column-5"><code>ne</code>
+|<code>.where(ne(table.column, 5))</code></h4>
+<h4 id="gt-.wheregttable.column-5"><code>gt</code>
+|<code>.where(gt(table.column, 5))</code></h4>
+<h4 id="gte-.wheregtetable.column-5"><code>gte</code>
+|<code>.where(gte(table.column, 5))</code></h4>
+<h4 id="lt-.wherelttable.column-5"><code>lt</code>
+|<code>.where(lt(table.column, 5))</code></h4>
+<h4 id="lte-.whereltetable.column-5"><code>lte</code>
+|<code>.where(lte(table.column, 5))</code></h4>
+<h4 id="isnull-.whereisnulltable.column"><code>isNull</code> |
+<code>.where(isNull(table.column))</code></h4>
+<h4 id="isnotnull-.whereisnotnulltable.column"><code>isNotNull</code> |
+<code>.where(isNotNull(table.column))</code></h4>
+<h4 id="inarray-.whereinarraytable.column-1-2-3"><code>inArray</code> |
+<code>.where(inArray(table.column, [1, 2, 3]))</code></h4>
+<h4
+id="notinarray-.wherenotinarraytable.column-1-2-3"><code>notInArray</code>
+| <code>.where(notInArray(table.column, [1, 2, 3]))</code></h4>
+<h4 id="exists-.whereexistsquery"><code>exists</code> |
+<code>.where(exists(query))</code></h4>
+<div class="sourceCode" id="cb57"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> query <span class="op">=</span> db<span class="op">.</span><span class="fu">select</span>()<span class="op">.</span><span class="fu">from</span>(table2)<span class="op">;</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="fu">select</span>()<span class="op">.</span><span class="fu">from</span>(table)<span class="op">.</span><span class="fu">where</span>(<span class="fu">exists</span>(query))<span class="op">;</span></span></code></pre></div>
+<h4 id="notexists-.wherenotexistsquery"><code>notExists</code> |
+<code>.where(notExists(query))</code></h4>
+<h4 id="between-.wherebetweentable.column-1-5"><code>between</code> |
+<code>.where(between(table.column, 1, 5))</code></h4>
+<h4
+id="notbetween-.wherenotbetweentable.column-1-5"><code>notBetween</code>
+| <code>.where(notBetween(table.column, 1, 5))</code></h4>
+<h4 id="like-.whereliketable.column-llo-wor"><code>like</code> |
+<code>.where(like(table.column, "%llo wor%"))</code></h4>
+<div class="sourceCode" id="cb58"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Find any values that start with &quot;A&quot;</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="fu">select</span>()<span class="op">.</span><span class="fu">from</span>(users)<span class="op">.</span><span class="fu">where</span>(<span class="fu">like</span>(users<span class="op">.</span><span class="at">name</span><span class="op">,</span> <span class="st">&quot;A%&quot;</span>))<span class="op">;</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Find any values that end with &quot;A&quot;</span></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="fu">select</span>()<span class="op">.</span><span class="fu">from</span>(users)<span class="op">.</span><span class="fu">where</span>(<span class="fu">like</span>(users<span class="op">.</span><span class="at">name</span><span class="op">,</span> <span class="st">&quot;%A&quot;</span>))<span class="op">;</span></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a><span class="co">// Find any values that contain &quot;A&quot; anywhere</span></span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="fu">select</span>()<span class="op">.</span><span class="fu">from</span>(users)<span class="op">.</span><span class="fu">where</span>(<span class="fu">like</span>(users<span class="op">.</span><span class="at">name</span><span class="op">,</span> <span class="st">&quot;%A%&quot;</span>))<span class="op">;</span></span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a><span class="co">// Find any values that start with &quot;A&quot; and are at least 2 characters in length</span></span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="fu">select</span>()<span class="op">.</span><span class="fu">from</span>(users)<span class="op">.</span><span class="fu">where</span>(<span class="fu">like</span>(users<span class="op">.</span><span class="at">name</span><span class="op">,</span> <span class="st">&quot;A_%&quot;</span>))<span class="op">;</span></span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a><span class="co">// Find any values that start with &quot;A&quot; and followed by exactly 5 characters</span></span>
+<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="fu">select</span>()<span class="op">.</span><span class="fu">from</span>(users)<span class="op">.</span><span class="fu">where</span>(<span class="fu">like</span>(users<span class="op">.</span><span class="at">name</span><span class="op">,</span> <span class="st">&quot;A_____&quot;</span>))<span class="op">;</span></span>
+<span id="cb58-15"><a href="#cb58-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-16"><a href="#cb58-16" aria-hidden="true" tabindex="-1"></a><span class="co">// Find any values that start with &quot;A&quot; and end with &quot;o&quot;</span></span>
+<span id="cb58-17"><a href="#cb58-17" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="fu">select</span>()<span class="op">.</span><span class="fu">from</span>(users)<span class="op">.</span><span class="fu">where</span>(<span class="fu">like</span>(users<span class="op">.</span><span class="at">name</span><span class="op">,</span> <span class="st">&quot;A%o&quot;</span>))<span class="op">;</span></span></code></pre></div>
+<h4 id="ilike-.whereiliketable.column-llo-wor"><code>ilike</code> |
+<code>.where(ilike(table.column, "%llo wor%"))</code></h4>
+<h4
+id="notilike-.wherenotiliketable.column-llo-wor"><code>notIlike</code> |
+<code>.where(notIlike(table.column, "%llo wor%"))</code></h4>
+<h4 id="not-.wherenoteqtable.column-5"><code>not</code> |
+<code>.where(not(eq(table.column, 5)))</code></h4>
+<p>All conditions must return <code>false</code>.</p>
+<h4
+id="and-.whereandeqtable.column1-5-eqtable.column2-10"><code>and</code>
+|
+<code>.where(and(eq(table.column1, 5), eq(table.column2, 10)))</code></h4>
+<p>All conditions must return <code>true</code>.</p>
+<h4 id="or-.whereoreqtable.column1-5-eqtable.column2-10"><code>or</code>
+|
+<code>.where(or(eq(table.column1, 5), eq(table.column2, 10)))</code></h4>
+<p>At least one condition must return <code>true</code>.</p>
+<h4 id="arraycontains"><code>arrayContains</code></h4>
+<h4 id="arraycontained"><code>arrayContained</code></h4>
+<h4 id="arrayoverlaps"><code>arrayOverlaps</code></h4>
+<h4 id="combining-filters">Combining filters</h4>
+<div class="sourceCode" id="cb59"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">select</span>()</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">from</span>(users)</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">where</span>(<span class="fu">and</span>(<span class="fu">eq</span>(users<span class="op">.</span><span class="at">id</span><span class="op">,</span> <span class="dv">42</span>)<span class="op">,</span> <span class="fu">eq</span>(users<span class="op">.</span><span class="at">name</span><span class="op">,</span> <span class="st">&quot;Dan&quot;</span>)))<span class="op">;</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">select</span>()</span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">from</span>(users)</span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">where</span>(<span class="fu">or</span>(<span class="fu">eq</span>(users<span class="op">.</span><span class="at">id</span><span class="op">,</span> <span class="dv">42</span>)<span class="op">,</span> <span class="fu">eq</span>(users<span class="op">.</span><span class="at">name</span><span class="op">,</span> <span class="st">&quot;Dan&quot;</span>)))<span class="op">;</span></span></code></pre></div>
+<h3 id="distinct-.distinct">Distinct | <code>.distinct()</code></h3>
+<p>You can use <code>.selectDistinct()</code> instead of
+<code>.select()</code> to retrieve only unique rows from a dataset:</p>
+<div class="sourceCode" id="cb60"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db<span class="op">.</span><span class="fu">selectDistinct</span>()<span class="op">.</span><span class="fu">from</span>(users)<span class="op">.</span><span class="fu">orderBy</span>(usersTable<span class="op">.</span><span class="at">id</span><span class="op">,</span> usersTable<span class="op">.</span><span class="at">name</span>)<span class="op">;</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db<span class="op">.</span><span class="fu">selectDistinct</span>({ id<span class="op">:</span> users<span class="op">.</span><span class="at">id</span> })<span class="op">.</span><span class="fu">from</span>(users)<span class="op">.</span><span class="fu">orderBy</span>(usersTable<span class="op">.</span><span class="at">id</span>)<span class="op">;</span></span></code></pre></div>
+<h3 id="limit"><code>.limit()</code></h3>
+<div class="sourceCode" id="cb61"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db<span class="op">.</span><span class="fu">select</span>()<span class="op">.</span><span class="fu">from</span>(users)<span class="op">.</span><span class="fu">limit</span>(<span class="dv">10</span>)<span class="op">;</span></span></code></pre></div>
+<h3 id="offset"><code>.offset()</code></h3>
+<div class="sourceCode" id="cb62"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db<span class="op">.</span><span class="fu">select</span>()<span class="op">.</span><span class="fu">from</span>(users)<span class="op">.</span><span class="fu">offset</span>(<span class="dv">10</span>)<span class="op">;</span></span></code></pre></div>
+<h3 id="orderby-.asc-.desc"><code>.orderBy()</code> |
+<code>.asc()</code> | <code>.desc()</code></h3>
+<div class="sourceCode" id="cb63"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db<span class="op">.</span><span class="fu">select</span>()<span class="op">.</span><span class="fu">from</span>(users)<span class="op">.</span><span class="fu">orderBy</span>(users<span class="op">.</span><span class="at">id</span>)<span class="op">;</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db<span class="op">.</span><span class="fu">select</span>()<span class="op">.</span><span class="fu">from</span>(users)<span class="op">.</span><span class="fu">orderBy</span>(<span class="fu">asc</span>(users<span class="op">.</span><span class="at">id</span>))<span class="op">;</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db<span class="op">.</span><span class="fu">select</span>()<span class="op">.</span><span class="fu">from</span>(users)<span class="op">.</span><span class="fu">orderBy</span>(<span class="fu">desc</span>(users<span class="op">.</span><span class="at">id</span>))<span class="op">;</span></span></code></pre></div>
+<h3 id="with"><code>.$with()</code></h3>
+<p>Using the <code>with</code> clause can help you simplify complex
+queries by splitting them into smaller sub-queries called common table
+expressions (CTEs):</p>
+<div class="sourceCode" id="cb64"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> sq <span class="op">=</span> db<span class="op">.</span><span class="fu">$with</span>(<span class="st">&quot;sq&quot;</span>)<span class="op">.</span><span class="fu">as</span>(db<span class="op">.</span><span class="fu">select</span>()<span class="op">.</span><span class="fu">from</span>(users)<span class="op">.</span><span class="fu">where</span>(<span class="fu">eq</span>(users<span class="op">.</span><span class="at">id</span><span class="op">,</span> <span class="dv">42</span>)))<span class="op">;</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> result <span class="op">=</span> <span class="cf">await</span> db<span class="op">.</span><span class="fu">with</span>(sq)<span class="op">.</span><span class="fu">select</span>()<span class="op">.</span><span class="fu">from</span>(sq)<span class="op">;</span></span></code></pre></div>
+<h3 id="select-from-sub-query">Select from sub-query</h3>
+<div class="sourceCode" id="cb65"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> sq <span class="op">=</span> db<span class="op">.</span><span class="fu">select</span>()<span class="op">.</span><span class="fu">from</span>(users)<span class="op">.</span><span class="fu">where</span>(<span class="fu">eq</span>(users<span class="op">.</span><span class="at">id</span><span class="op">,</span> <span class="dv">42</span>))<span class="op">.</span><span class="fu">as</span>(<span class="st">&quot;sq&quot;</span>)<span class="op">;</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> result <span class="op">=</span> <span class="cf">await</span> db<span class="op">.</span><span class="fu">select</span>()<span class="op">.</span><span class="fu">from</span>(sq)<span class="op">;</span></span></code></pre></div>
+<h3 id="aggregations">Aggregations</h3>
+<div class="sourceCode" id="cb66"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { max } <span class="im">from</span> <span class="st">&quot;drizzle-orm&quot;</span><span class="op">;</span></span></code></pre></div>
+<h4 id="count-.count-.countdistinct"><code>count</code> |
+<code>.count()</code> | <code>.countDistinct()</code></h4>
+<div class="sourceCode" id="cb67"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db<span class="op">.</span><span class="fu">select</span>({ value<span class="op">:</span> <span class="fu">count</span>() })<span class="op">.</span><span class="fu">from</span>(users)<span class="op">;</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db<span class="op">.</span><span class="fu">select</span>({ value<span class="op">:</span> <span class="fu">count</span>(users<span class="op">.</span><span class="at">id</span>) })<span class="op">.</span><span class="fu">from</span>(users)<span class="op">;</span></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db<span class="op">.</span><span class="fu">select</span>({ value<span class="op">:</span> <span class="fu">countDistinct</span>(users<span class="op">.</span><span class="at">id</span>) })<span class="op">.</span><span class="fu">from</span>(users)<span class="op">;</span></span></code></pre></div>
+<h4 id="avg-.avg-.avgdistinct"><code>avg</code> | <code>.avg()</code> |
+<code>.avgDistinct()</code></h4>
+<div class="sourceCode" id="cb68"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db<span class="op">.</span><span class="fu">select</span>({ value<span class="op">:</span> <span class="fu">avg</span>(users<span class="op">.</span><span class="at">id</span>) })<span class="op">.</span><span class="fu">from</span>(users)<span class="op">;</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db<span class="op">.</span><span class="fu">select</span>({ value<span class="op">:</span> <span class="fu">avgDistinct</span>(users<span class="op">.</span><span class="at">id</span>) })<span class="op">.</span><span class="fu">from</span>(users)<span class="op">;</span></span></code></pre></div>
+<h4 id="sum-.sum-.sumdistinct"><code>sum</code> | <code>.sum()</code> |
+<code>.sumDistinct()</code></h4>
+<div class="sourceCode" id="cb69"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db<span class="op">.</span><span class="fu">select</span>({ value<span class="op">:</span> <span class="fu">sum</span>(users<span class="op">.</span><span class="at">id</span>) })<span class="op">.</span><span class="fu">from</span>(users)<span class="op">;</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db<span class="op">.</span><span class="fu">select</span>({ value<span class="op">:</span> <span class="fu">sumDistinct</span>(users<span class="op">.</span><span class="at">id</span>) })<span class="op">.</span><span class="fu">from</span>(users)<span class="op">;</span></span></code></pre></div>
+<h4 id="max-.max-min-.min"><code>max</code> | <code>.max()</code> |
+<code>min</code> | <code>.min()</code></h4>
+<div class="sourceCode" id="cb70"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db<span class="op">.</span><span class="fu">select</span>({ value<span class="op">:</span> <span class="fu">max</span>(users<span class="op">.</span><span class="at">id</span>) })<span class="op">.</span><span class="fu">from</span>(users)<span class="op">;</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> db<span class="op">.</span><span class="fu">select</span>({ value<span class="op">:</span> <span class="fu">min</span>(users<span class="op">.</span><span class="at">id</span>) })<span class="op">.</span><span class="fu">from</span>(users)<span class="op">;</span></span></code></pre></div></div>
     </main>
     <footer>
       <p>
