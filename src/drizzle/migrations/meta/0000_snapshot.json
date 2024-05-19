@@ -1,5 +1,5 @@
 {
-  "id": "363804d8-a14d-4844-a938-f83d0cd33f91",
+  "id": "da01c02e-6caa-44cc-b872-bd70bcfbf236",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "6",
   "dialect": "postgresql",
@@ -41,11 +41,111 @@
           "primaryKey": false,
           "notNull": true,
           "default": false
+        },
+        "spaceId": {
+          "name": "spaceId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
+      "indexes": {
+        "idx_collection_spaceId": {
+          "name": "idx_collection_spaceId",
+          "columns": [
+            "spaceId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "collection_spaceId_space_id_fk": {
+          "name": "collection_spaceId_space_id_fk",
+          "tableFrom": "collection",
+          "tableTo": "space",
+          "columnsFrom": [
+            "spaceId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.collectionTag": {
+      "name": "collectionTag",
+      "schema": "",
+      "columns": {
+        "collectionId": {
+          "name": "collectionId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tagId": {
+          "name": "tagId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "idx_collectionTag_collectionId": {
+          "name": "idx_collectionTag_collectionId",
+          "columns": [
+            "collectionId"
+          ],
+          "isUnique": false
+        },
+        "idx_collectionTag_TagId": {
+          "name": "idx_collectionTag_TagId",
+          "columns": [
+            "tagId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "collectionTag_collectionId_collection_id_fk": {
+          "name": "collectionTag_collectionId_collection_id_fk",
+          "tableFrom": "collectionTag",
+          "tableTo": "collection",
+          "columnsFrom": [
+            "collectionId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "collectionTag_tagId_tag_id_fk": {
+          "name": "collectionTag_tagId_tag_id_fk",
+          "tableFrom": "collectionTag",
+          "tableTo": "tag",
+          "columnsFrom": [
+            "tagId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "pk_collectionTag_collectionId_tagId": {
+          "name": "pk_collectionTag_collectionId_tagId",
+          "columns": [
+            "collectionId",
+            "tagId"
+          ]
+        }
+      },
       "uniqueConstraints": {}
     },
     "public.organization": {
@@ -89,7 +189,15 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "uq_organization_name": {
+          "name": "uq_organization_name",
+          "nullsNotDistinct": false,
+          "columns": [
+            "name"
+          ]
+        }
+      }
     },
     "public.space": {
       "name": "space",
@@ -129,12 +237,48 @@
           "primaryKey": false,
           "notNull": true,
           "default": "'public'"
+        },
+        "organizationId": {
+          "name": "organizationId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
+      "indexes": {
+        "idx_space_organizationId": {
+          "name": "idx_space_organizationId",
+          "columns": [
+            "organizationId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "space_organizationId_organization_id_fk": {
+          "name": "space_organizationId_organization_id_fk",
+          "tableFrom": "space",
+          "tableTo": "organization",
+          "columnsFrom": [
+            "organizationId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "uniqueSpaceName": {
+          "name": "uniqueSpaceName",
+          "nullsNotDistinct": false,
+          "columns": [
+            "name"
+          ]
+        }
+      }
     },
     "public.tab": {
       "name": "tab",
@@ -190,10 +334,38 @@
           "type": "varchar(500)",
           "primaryKey": false,
           "notNull": false
+        },
+        "collectionId": {
+          "name": "collectionId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
+      "indexes": {
+        "idx_tab_collectionId": {
+          "name": "idx_tab_collectionId",
+          "columns": [
+            "collectionId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "tab_collectionId_collection_id_fk": {
+          "name": "tab_collectionId_collection_id_fk",
+          "tableFrom": "tab",
+          "tableTo": "collection",
+          "columnsFrom": [
+            "collectionId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -238,7 +410,23 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "uq_tag_name": {
+          "name": "uq_tag_name",
+          "nullsNotDistinct": false,
+          "columns": [
+            "name"
+          ]
+        },
+        "uq_tag_name_color": {
+          "name": "uq_tag_name_color",
+          "nullsNotDistinct": false,
+          "columns": [
+            "name",
+            "color"
+          ]
+        }
+      }
     }
   },
   "enums": {

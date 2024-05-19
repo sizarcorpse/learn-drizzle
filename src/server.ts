@@ -31,8 +31,6 @@ app.use(pagination);
 
 // Organization
 organization.get("/", async (c) => {
-  console.log(c.req.param());
-
   const organizations = await organizationHandler.getOrganizations(c);
   return c.json({
     message: "Organizations",
@@ -129,7 +127,7 @@ collection.get("/:collectionId", async (c) => {
   });
 });
 
-collection.post("/:collectionId/tags", async (c) => {
+collection.post("/:collectionId/tags/:tagId", async (c) => {
   const collection = await collectionHandler.addTagToCollection(c);
   return c.json({
     message: "Tag added to collection",

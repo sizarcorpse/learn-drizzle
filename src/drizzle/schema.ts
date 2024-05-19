@@ -11,6 +11,7 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
+import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -31,6 +32,13 @@ export const OrganizationTable = pgTable(
   },
   (table) => ({
     uqOrganizationName: unique("uq_organization_name").on(table.name),
+  })
+);
+
+export const organizationRelation = relations(
+  OrganizationTable,
+  ({ many }) => ({
+    space: many(SpaceTable),
   })
 );
 
@@ -64,6 +72,14 @@ export const SpaceTable = pgTable(
   })
 );
 
+export const spaceRelation = relations(SpaceTable, ({ one, many }) => ({
+  organization: one(OrganizationTable, {
+    fields: [SpaceTable.organizationId],
+    references: [OrganizationTable.id],
+  }),
+  collection: many(CollectionTable),
+}));
+
 export const insertSpaceSchema = createInsertSchema(SpaceTable, {
   name: () => z.string().min(3).max(33),
 });
@@ -86,6 +102,18 @@ export const CollectionTable = pgTable(
   },
   (t) => ({
     idxCollectionSpaceId: index("idx_collection_spaceId").on(t.spaceId),
+  })
+);
+
+export const collectionRelation = relations(
+  CollectionTable,
+  ({ one, many }) => ({
+    space: one(SpaceTable, {
+      fields: [CollectionTable.spaceId],
+      references: [SpaceTable.id],
+    }),
+    tab: many(TabTable),
+    collectionTag: many(CollectionTagTable),
   })
 );
 
@@ -125,6 +153,21 @@ export const TabTable = pgTable(
   })
 );
 
+export const tabRelation = relations(TabTable, ({ one }) => ({
+  collection: one(CollectionTable, {
+    fields: [TabTable.collectionId],
+    references: [CollectionTable.id],
+  }),
+}));
+
+export const insertTabSchema = createInsertSchema(TabTable, {
+  title: () => z.string().min(3).max(500),
+  url: () => z.string().url(),
+});
+
+export type Tab = typeof TabTable.$inferSelect;
+export type InsertTab = typeof TabTable.$inferInsert;
+
 export const TagTable = pgTable(
   "tag",
   {
@@ -143,6 +186,10 @@ export const TagTable = pgTable(
     uqTagNameColor: unique("uq_tag_name_color").on(t.name, t.color),
   })
 );
+
+export const tagRelation = relations(TagTable, ({ many }) => ({
+  collectionTag: many(CollectionTagTable),
+}));
 
 export const insertTagSchema = createInsertSchema(TagTable, {
   name: () => z.string().min(3).max(100),
@@ -163,13 +210,27 @@ export const CollectionTagTable = pgTable(
   },
   (table) => ({
     pkCollectionTag: primaryKey({
-      name: "pk_collectionTag",
+      name: "pk_collectionTag_collectionId_tagId",
       columns: [table.collectionId, table.tagId],
     }),
     idxCollectionTagCollectionId: index("idx_collectionTag_collectionId").on(
       table.collectionId
     ),
     idxCollectionTagTagId: index("idx_collectionTag_TagId").on(table.tagId),
+  })
+);
+
+export const collectionTagRelation = relations(
+  CollectionTagTable,
+  ({ one }) => ({
+    collection: one(CollectionTable, {
+      fields: [CollectionTagTable.collectionId],
+      references: [CollectionTable.id],
+    }),
+    tag: one(TagTable, {
+      fields: [CollectionTagTable.tagId],
+      references: [TagTable.id],
+    }),
   })
 );
 

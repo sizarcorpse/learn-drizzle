@@ -1,4 +1,5 @@
 import {
+  Tag,
   insertCollectionSchema,
   type Collection,
   type CollectionTag,
@@ -75,7 +76,13 @@ export const collectionHandler = {
     }
   },
 
-  async addTagToCollection(c: Context): Promise<CollectionTag> {
+  async addTagToCollection(c: Context): Promise<
+    | {
+        Collection: Collection | undefined;
+        Tag: Tag | undefined;
+      }
+    | any
+  > {
     try {
       const collectionId = c.req.param("collectionId");
       const tagId = c.req.param("tagId");

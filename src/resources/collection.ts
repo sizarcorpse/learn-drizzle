@@ -4,6 +4,7 @@ import {
   CollectionTagTable,
   InsertCollection,
   SpaceTable,
+  TagTable,
 } from "@/drizzle/schema";
 import "dotenv/config";
 import { asc, eq } from "drizzle-orm";
@@ -17,6 +18,7 @@ export const collectionService = {
         .orderBy(asc(CollectionTable.name))
         .limit(limit)
         .offset(offset);
+
       return collections;
     } catch (error) {
       throw error;
@@ -75,14 +77,31 @@ export const collectionService = {
 
   async getCollectionsBySpace(spaceId: string, limit: number, offset: number) {
     try {
-      const collections = await db
-        .select()
-        .from(CollectionTable)
-        .where(eq(CollectionTable.spaceId, spaceId))
-        .limit(limit)
-        .offset(offset);
+      const prepared = db.query.CollectionTable.findMany({
+        where: (c, { eq }) => eq(c.spaceId, spaceId),
+        with: {
+          collectionTag: {
+            columns: {},
+            with: {
+              tag: true,
+            },
+            limit: 10,
+          },
+        },
+      }).prepare("getCollectionsBySpace");
 
-      return collections;
+      const collections = await prepared.execute();
+
+      const collectionsWithTags = collections.map((collection) => {
+        const tags = collection.collectionTag.map((tag) => tag.tag);
+
+        return {
+          ...collection,
+          collectionTag: tags,
+        };
+      });
+
+      return collectionsWithTags;
     } catch (error) {
       throw error;
     }
@@ -99,7 +118,28 @@ export const collectionService = {
         .onConflictDoNothing()
         .returning();
 
-      return collectionTag[0];
+      if (!collectionTag || !collectionTag[0]) {
+        throw new Error("Collection tag not created");
+      }
+
+      const collection = await db
+        .select()
+        .from(CollectionTable)
+        .where(eq(CollectionTable.id, collectionTag[0].collectionId));
+
+      const tag = await db
+        .select()
+        .from(TagTable)
+        .where(eq(TagTable.id, collectionTag[0].tagId));
+
+      if (!collection || !tag) {
+        throw new Error("Collection or tag not found");
+      }
+
+      return {
+        collection: collection[0],
+        tag: tag[0],
+      };
     } catch (error) {
       throw error;
     }
