@@ -113,6 +113,27 @@
       - [`avg` | `.avg()` | `.avgDistinct()`](#avg--avg--avgdistinct)
       - [`sum` | `.sum()` | `.sumDistinct()`](#sum--sum--sumdistinct)
       - [`max` | `.max()` | `min` | `.min()`](#max--max--min--min)
+  - [Query](#query)
+    - [Declaring relations `relations()`](#declaring-relations-relations)
+      - [One-to-self](#one-to-self)
+      - [One-to-one](#one-to-one-1)
+      - [One-to-many](#one-to-many-1)
+      - [Many-to-many](#many-to-many-1)
+    - [Disambiguating relations / Naming relations](#disambiguating-relations--naming-relations)
+    - [`.query()`](#query-1)
+      - [`.findMany()`](#findmany)
+      - [`.findFirst()`](#findfirst)
+      - [`with` | Include relations](#with--include-relations)
+      - [`columns` | Select specific columns](#columns--select-specific-columns)
+    - [`filters` | Filtering](#filters--filtering)
+    - [`limit` \& `offset`](#limit--offset)
+    - [`orderBy`](#orderby)
+  - [Prepared statement `.prepare()` | `.execute()` | `.placeholder()`](#prepared-statement-prepare--execute--placeholder)
+  - [Set Operations](#set-operations)
+  - [Transactions](#transactions)
+  - [Batch API](#batch-api)
+  - [Dynamic query building](#dynamic-query-building)
+  - [Typescript | type](#typescript--type)
 
 ## TODO
 
@@ -1293,4 +1314,420 @@ await db.select({ value: sumDistinct(users.id) }).from(users);
 await db.select({ value: max(users.id) }).from(users);
 
 await db.select({ value: min(users.id) }).from(users);
+```
+
+## Query
+
+### Declaring relations `relations()`
+
+#### One-to-self
+
+- An example of a one-to-one relation between users and users, where a user can invite another.
+
+```typescript
+import { relations } from 'drizzle-orm';
+
+export const users = pgTable('users', {
+  id: serial('id').primaryKey(),
+  name: text('name'),
+  invitedBy: integer('invited_by'),
+});
+
+export const usersRelations = relations(users, ({ one }) => ({
+  invitee: one(users, {
+    fields: [users.invitedBy],
+    references: [users.id],
+  }),
+
+```
+
+#### One-to-one
+
+- In one-to-one `relations`, The table with the foreign key set up the mapping.
+
+```typescript
+import { relations } from "drizzle-orm";
+
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  name: text("name"),
+});
+
+export const profileInfo = pgTable("profile_info", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id),
+});
+
+export const usersRelations = relations(users, ({ one }) => ({
+  profileInfo: one(profileInfo),
+}));
+
+export const profileInfoRelations = relations(profileInfo, ({ one }) => ({
+  user: one(users, {
+    fields: [profileInfo.userId],
+    references: [users.id],
+  }),
+}));
+```
+
+#### One-to-many
+
+```typescript
+import { relations } from "drizzle-orm";
+
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  name: text("name"),
+});
+
+export const posts = pgTable("posts", {
+  id: serial("id").primaryKey(),
+  content: text("content"),
+  authorId: integer("author_id"),
+});
+
+export const usersRelations = relations(users, ({ many }) => ({
+  posts: many(posts),
+}));
+
+export const postsRelations = relations(posts, ({ one }) => ({
+  user: one(users, {
+    fields: [posts.authorId],
+    references: [users.id],
+  }),
+}));
+```
+
+#### Many-to-many
+
+```typescript
+import { relations } from "drizzle-orm";
+import {
+  integer,
+  pgTable,
+  primaryKey,
+  serial,
+  text,
+} from "drizzle-orm/pg-core";
+
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  name: text("name"),
+});
+
+export const usersRelations = relations(users, ({ many }) => ({
+  usersToGroups: many(usersToGroups),
+}));
+
+export const groups = pgTable("groups", {
+  id: serial("id").primaryKey(),
+  name: text("name"),
+});
+
+export const groupsRelations = relations(groups, ({ many }) => ({
+  usersToGroups: many(usersToGroups),
+}));
+
+export const usersToGroups = pgTable(
+  "users_to_groups",
+  {
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id),
+    groupId: integer("group_id")
+      .notNull()
+      .references(() => groups.id),
+  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.userId, t.groupId] }),
+  })
+);
+
+export const usersToGroupsRelations = relations(usersToGroups, ({ one }) => ({
+  group: one(groups, {
+    fields: [usersToGroups.groupId],
+    references: [groups.id],
+  }),
+  user: one(users, {
+    fields: [usersToGroups.userId],
+    references: [users.id],
+  }),
+}));
+```
+
+### Disambiguating relations / Naming relations
+
+```typescript
+export const postsRelations = relations(posts, ({ one }) => ({
+  author: one(users, {
+    fields: [posts.authorId],
+    references: [users.id],
+    relationName: "author",
+  }),
+  reviewer: one(users, {
+    fields: [posts.reviewerId],
+    references: [users.id],
+    relationName: "reviewer",
+  }),
+}));
+```
+
+### `.query()`
+
+```typescript
+await db.query.users.findMany(...);
+```
+
+#### `.findMany()`
+
+#### `.findFirst()`
+
+#### `with` | Include relations
+
+`With` operator lets you combine data from multiple related tables and properly aggregate results.
+
+```typescript
+const posts = await db.query.posts.findMany({
+  with: {
+    comments: true,
+  },
+});
+```
+
+- Nested relations
+
+```typescript
+const users = await db.query.users.findMany({
+  with: {
+    posts: {
+      with: {
+        comments: true,
+      },
+    },
+  },
+});
+```
+
+#### `columns` | Select specific columns
+
+```typescript
+const posts = await db.query.posts.findMany({
+  columns: {
+    id: true,
+    content: true,
+    status: false,
+  },
+  with: {
+    comments: true,
+  },
+});
+```
+
+- Only include columns from nested relations:
+
+```typescript
+const res = await db.query.users.findMany({
+  columns: {},
+  with: {
+    posts: true,
+  },
+});
+```
+
+```typescript
+const posts = await db.query.posts.findMany({
+  columns: {
+    id: true,
+    content: true,
+  },
+  with: {
+    comments: {
+      columns: {
+        authorId: false,
+      },
+    },
+  },
+});
+```
+
+### `filters` | Filtering
+
+```typescript
+import { eq } from "drizzle-orm";
+
+const users = await db.query.users.findMany({
+  where: eq(users.id, 1),
+});
+```
+
+or
+
+```typescript
+const users = await db.query.users.findMany({
+  where: (users, { eq }) => eq(users.id, 1),
+});
+```
+
+```typescript
+await db.query.posts.findMany({
+  where: (posts, { eq }) => eq(posts.id, 1),
+  with: {
+    comments: {
+      where: (comments, { lt }) => lt(comments.createdAt, new Date()),
+    },
+  },
+});
+```
+
+### `limit` & `offset`
+
+- `offset` is only available for top level query.
+
+```typescript
+await db.query.posts.findMany({
+  limit: 5,
+  offset: 2, // correct ✅
+  with: {
+    comments: {
+      offset: 3, // incorrect ❌
+      limit: 3,
+    },
+  },
+});
+```
+
+### `orderBy`
+
+```typescript
+import { desc, asc } from "drizzle-orm";
+
+await db.query.posts.findMany({
+  orderBy: [asc(posts.id)],
+});
+
+await db.query.posts.findMany({
+  orderBy: (posts, { asc }) => [asc(posts.id)],
+});
+```
+
+## Prepared statement `.prepare()` | `.execute()` | `.placeholder()`
+
+```typescript
+// Prepare a statement
+
+const prepared = db.select().from(customers).prepare("statement_name");
+```
+
+```typescript
+// Placeholder
+
+import { sql } from "drizzle-orm";
+const p1 = db
+  .select()
+  .from(customers)
+  .where(eq(customers.id, sql.placeholder("id")))
+  .prepare("p1");
+
+await p1.execute({ id: 10 });
+```
+
+```typescript
+const prepared = db.query.users
+  .findMany({
+    limit: placeholder("uLimit"),
+    offset: placeholder("uOffset"),
+    where: (users, { eq, or }) =>
+      or(eq(users.id, placeholder("id")), eq(users.id, 3)),
+    with: {
+      posts: {
+        where: (users, { eq }) => eq(users.id, placeholder("pid")),
+        limit: placeholder("pLimit"),
+      },
+    },
+  })
+  .prepare("query_name");
+
+const usersWithPosts = await prepared.execute({
+  pLimit: 1,
+  uLimit: 3,
+  uOffset: 1,
+  id: 2,
+  pid: 6,
+});
+```
+
+## Set Operations
+
+## Transactions
+
+## Batch API
+
+## Dynamic query building
+
+## Typescript | type
+
+```typescript
+import { serial, text, pgTable } from "drizzle-orm/pg-core";
+import { type InferSelectModel, type InferInsertModel } from "drizzle-orm";
+const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+});
+type SelectUser = typeof users.$inferSelect;
+type InsertUser = typeof users.$inferInsert;
+// or
+type SelectUser = typeof users._.$inferSelect;
+type InsertUser = typeof users._.$inferInsert;
+// or
+type SelectUser = InferSelectModel<typeof users>;
+type InsertUser = InferInsertModel<typeof users>;
+```
+
+- `drizzle-zod`
+
+```typescript
+npm i drizzle-zod
+```
+
+```typescript
+import { pgEnum, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
+import { z } from "zod";
+
+const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  role: text("role", { enum: ["admin", "user"] }).notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+// Schema for inserting a user - can be used to validate API requests
+const insertUserSchema = createInsertSchema(users);
+
+// Schema for selecting a user - can be used to validate API responses
+const selectUserSchema = createSelectSchema(users);
+
+// Overriding the fields
+const insertUserSchema = createInsertSchema(users, {
+  role: z.string(),
+});
+
+// Refining the fields - useful if you want to change the fields before they become nullable/optional in the final schema
+const insertUserSchema = createInsertSchema(users, {
+  id: (schema) => schema.id.positive(),
+  email: (schema) => schema.email.email(),
+  role: z.string(),
+});
+
+// Usage
+
+const user = insertUserSchema.parse({
+  name: "John Doe",
+  email: "johndoe@test.com",
+  role: "admin",
+});
+
+// Zod schema type is also inferred from the table schema, so you have full type safety
+const requestSchema = insertUserSchema.pick({ name: true, email: true });
 ```
